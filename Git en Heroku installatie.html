@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heroku Deployment Stappen</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        .code-block {
+            background-color: #1e1e1e;
+            color: #dcdcdc;
+            padding: 15px;
+            border-radius: 5px;
+            position: relative;
+            margin-top: 20px;
+        }
+        .code-block code {
+            color: #9cdcfe;
+            font-family: Consolas, "Courier New", Courier, monospace;
+        }
+        .code-block .copy-button {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            padding: 5px 10px;
+            background-color: #007acc;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .code-block .copy-button:hover {
+            background-color: #005f9e;
+        }
+    </style>
+</head>
+<body>
+    <h1>Heroku Deployment Stappen</h1>
+
+    <h2>1. Voorbereiding van het Project</h2>
+    <h3>requirements.txt bestand</h3>
+    <p>Dit bestand is gegenereerd op basis van de Python-pakketten die in je project worden gebruikt.</p>
+    <div class="code-block">
+        <button class="copy-button" onclick="copyToClipboard('pip freeze > requirements.txt')">Code kopiëren</button>
+        <code>pip freeze &gt; requirements.txt</code>
+    </div>
+
+    <p>In jouw geval bevatte het bestand:</p>
+    <div class="code-block">
+        <button class="copy-button" onclick="copyToClipboard('Flask==2.3.2\npandas==1.5.3\nopenpyxl==3.1.2\nxlsxwriter==3.0.9')">Code kopiëren</button>
+        <code>Flask==2.3.2<br>pandas==1.5.3<br>openpyxl==3.1.2<br>xlsxwriter==3.0.9</code>
+    </div>
+
+    <h3>Procfile bestand</h3>
+    <p>Dit bestand vertelt Heroku welke command moet worden uitgevoerd om je applicatie te starten.</p>
+    <div class="code-block">
+        <button class="copy-button" onclick="copyToClipboard('web: python app.py')">Code kopiëren</button>
+        <code>web: python app.py</code>
+    </div>
+
+    <h3>Git-repository initialiseren</h3>
+    <p>We hebben ervoor gezorgd dat je project een Git-repository is, zodat je het naar Heroku kunt deployen.</p>
+    <div class="code-block">
+        <button class="copy-button" onclick="copyToClipboard('git init\ngit add .\ngit commit -m \"Initial commit\"')">Code kopiëren</button>
+        <code>git init<br>git add .<br>git commit -m "Initial commit"</code>
+    </div>
+
+    <h2>2. Heroku Instellen</h2>
+    <h3>Heroku CLI installeren</h3>
+    <p>Dit was nodig om Heroku-commando's in je terminal te kunnen gebruiken.</p>
+    <p><a href="https://devcenter.heroku.com/articles/heroku-cli">Heroku CLI Installatie</a></p>
+    
+    <h3>Heroku App aanmaken</h3>
+    <p>We hebben een Heroku-app genaamd <code>flashcard-unitasfam</code> gemaakt.</p>
+    <div class="code-block">
+        <button class="copy-button" onclick="copyToClipboard('heroku create flashcard-unitasfam')">Code kopiëren</button>
+        <code>heroku create flashcard-unitasfam</code>
+    </div>
+
+    <h3>Heroku Remote Repository toevoegen</h3>
+    <p>We hebben Heroku toegevoegd als een remote repository in je Git-project.</p>
+    <div class="code-block">
+        <button class="copy-button" onclick="copyToClipboard('git remote add heroku https://git.heroku.com/flashcard-unitasfam.git')">Code kopiëren</button>
+        <code>git remote add heroku https://git.heroku.com/flashcard-unitasfam.git</code>
+    </div>
+
+    <h2>3. Deployen naar Heroku</h2>
+    <h3>Code pushen naar Heroku</h3>
+    <p>We hebben je code naar Heroku gepusht om je app te deployen.</p>
+    <div class="code-block">
+        <button class="copy-button" onclick="copyToClipboard('git push heroku main')">Code kopiëren</button>
+        <code>git push heroku main</code>
+    </div>
+
+    <h3>Problemen met Gebruikersinstellingen in Git</h3>
+    <p>We hebben je gebruikersnaam en e-mailadres ingesteld om te voorkomen dat Git vroeg wie je bent tijdens het maken van commits.</p>
+    <div class="code-block">
+        <button class="copy-button" onclick="copyToClipboard('git config --global user.name \"Your Name\"\ngit config --global user.email \"you@example.com\"')">Code kopiëren</button>
+        <code>git config --global user.name "Your Name"<br>git config --global user.email "you@example.com"</code>
+    </div>
+
+    <h3>Deploymentproces bij Heroku</h3>
+    <p>Het deploymentproces kan soms langer duren, vooral als Heroku pakketten moet installeren en bouwen (zoals <code>pandas</code>). Dit is normaal en vereist enige geduld.</p>
+
+    <h2>4. App Openen en Logs Controleren</h2>
+    <h3>App openen</h3>
+    <p>Nadat de deployment succesvol was, kun je je app openen in een webbrowser.</p>
+    <div class="code-block">
+        <button class="copy-button" onclick="copyToClipboard('heroku open')">Code kopiëren</button>
+        <code>heroku open</code>
+    </div>
+
+    <h3>Logs controleren</h3>
+    <p>Als je problemen tegenkomt, kun je de Heroku logs controleren om te zien wat er misgaat.</p>
+    <div class="code-block">
+        <button class="copy-button" onclick="copyToClipboard('heroku logs --tail')">Code kopiëren</button>
+        <code>heroku logs --tail</code>
+    </div>
+
+    <script>
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(function() {
+                alert('Code gekopieerd naar klembord');
+            }, function(err) {
+                alert('Kon de code niet kopiëren: ', err);
+            });
+        }
+    </script>
+</body>
+</html>

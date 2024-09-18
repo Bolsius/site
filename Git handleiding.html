@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Git Handleiding</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+            padding: 10px;
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        .code-block {
+            background-color: #1e1e1e;
+            color: #dcdcdc;
+            padding: 15px;
+            border-radius: 5px;
+            position: relative;
+            margin-top: 20px;
+            overflow-x: auto;
+        }
+        .code-block code {
+            color: #9cdcfe;
+            font-family: Consolas, "Courier New", Courier, monospace;
+            white-space: pre-wrap;
+        }
+        .code-block .copy-button {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            padding: 5px 10px;
+            background-color: #007acc;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .code-block .copy-button:hover {
+            background-color: #005f9e;
+        }
+        @media (max-width: 600px) {
+            body {
+                font-size: 14px;
+            }
+            .code-block {
+                padding: 10px;
+            }
+            .code-block .copy-button {
+                font-size: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Git Handleiding</h1>
+
+    <h2>Inleiding tot Git</h2>
+    <p>Git is een gedistribueerd versiebeheersysteem dat je helpt om veranderingen in bestanden bij te houden. Het wordt vaak gebruikt voor het beheren van broncode in softwareontwikkeling, maar kan ook worden gebruikt om de geschiedenis van wijzigingen in elk bestand te beheren.</p>
+
+    <h2>Basisconcepten van Git</h2>
+    <ul>
+        <li><strong>Repository (Repo):</strong> Een opslagplaats die alle bestanden en mappen bevat die Git volgt, inclusief een volledige geschiedenis van alle veranderingen.</li>
+        <li><strong>Commit:</strong> Een momentopname van je project op een bepaald moment. Elke commit bevat een unieke ID, een beschrijving, en informatie over welke bestanden zijn veranderd.</li>
+        <li><strong>Branch:</strong> Een parallelle versie van je repository. Elke branch kan onafhankelijk van de andere branches evolueren. De <code>main</code> of <code>master</code> branch is vaak de hoofdbranch.</li>
+        <li><strong>Remote:</strong> Een externe versie van je repository, bijvoorbeeld op GitHub of Heroku, waarmee je je project kunt delen en samenwerken met anderen.</li>
+    </ul>
+
+    <h2>Installatie van Git</h2>
+    <ol>
+        <li><strong>Download Git:</strong> Ga naar <a href="https://git-scm.com/downloads">Git-website</a> en download de versie voor jouw besturingssysteem (Windows, macOS, Linux).</li>
+        <li><strong>Installeer Git:</strong> Volg de installatie-instructies in het installatieprogramma.</li>
+        <li><strong>Controleer de installatie:</strong> Open de terminal of command prompt en typ:
+            <div class="code-block">
+                <button class="copy-button" onclick="copyToClipboard('git --version')">Code kopiëren</button>
+                <code>git --version</code>
+            </div>
+        </li>
+    </ol>
+
+    <h2>Initialiseren van een Git-repository</h2>
+    <p>Een Git-repository initialiseren betekent dat je Git vertelt om de huidige map te gaan volgen en beheren.</p>
+    <ol>
+        <li><strong>Navigeer naar je projectmap:</strong> Gebruik het <code>cd</code>-commando in de terminal om naar de map te gaan waarin je project zich bevindt.</li>
+        <li><strong>Initialiseer Git:</strong> Typ het volgende commando:
+            <div class="code-block">
+                <button class="copy-button" onclick="copyToClipboard('git init')">Code kopiëren</button>
+                <code>git init</code>
+            </div>
+        </li>
+    </ol>
+
+    <h2>Bestanden toevoegen aan Git</h2>
+    <p>Wanneer je nieuwe bestanden maakt of bestaande bestanden wijzigt, moet je Git vertellen om die wijzigingen te volgen.</p>
+    <ol>
+        <li><strong>Voeg een specifiek bestand toe:</strong>
+            <div class="code-block">
+                <button class="copy-button" onclick="copyToClipboard('git add bestandsnaam.ext')">Code kopiëren</button>
+                <code>git add bestandsnaam.ext</code>
+            </div>
+        </li>
+        <li><strong>Voeg alle bestanden in één keer toe:</strong>
+            <div class="code-block">
+                <button class="copy-button" onclick="copyToClipboard('git add .')">Code kopiëren</button>
+                <code>git add .</code>
+            </div>
+        </li>
+    </ol>
+
+    <h2>Een Commit maken</h2>
+    <p>Een commit is een momentopname van je project op een bepaald moment.</p>
+    <ol>
+        <li><strong>Maak een commit:</strong> Typ:
+            <div class="code-block">
+                <button class="copy-button" onclick="copyToClipboard('git commit -m &quot;Beschrijvend bericht&quot;')">Code kopiëren</button>
+                <code>git commit -m "Beschrijvend bericht"</code>
+            </div>
+        </li>
+    </ol>
+
+    <h2>Status van je Repository Bekijken</h2>
+    <p>Je kunt de huidige status van je project bekijken, inclusief welke bestanden zijn gewijzigd en welke nog niet zijn gecommit.</p>
+    <div class="code-block">
+        <button class="copy-button" onclick="copyToClipboard('git status')">Code kopiëren</button>
+        <code>git status</code>
+    </div>
+
+    <h2>Bestanden die door Git worden gevolgd bekijken</h2>
+    <p>Je kunt een lijst bekijken van alle bestanden die op dit moment door Git worden gevolgd.</p>
+    <div class="code-block">
+        <button class="copy-button" onclick="copyToClipboard('git ls-files')">Code kopiëren</button>
+        <code>git ls-files</code>
+    </div>
+
+    <h2>Toegang tot Logs en Versiegeschiedenis</h2>
+    <p>Je kunt de geschiedenis van commits en andere Git-acties bekijken.</p>
+    <ol>
+        <li><strong>Gebruik <code>git log</code>:</strong>
+            <div class="code-block">
+                <button class="copy-button" onclick="copyToClipboard('git log')">Code kopiëren</button>
+                <code>git log</code>
+            </div>
+        </li>
+        <li><strong>Details van een specifieke commit bekijken:</strong>
+            <div class="code-block">
+                <button class="copy-button" onclick="copyToClipboard('git show commit-id')">Code kopiëren</button>
+                <code>git show commit-id</code>
+            </div>
+        </li>
+    </ol>
+
+    <h2>Bestanden in Submappen toevoegen</h2>
+    <p>Bestanden in submappen kunnen eenvoudig worden toegevoegd door het volledige pad op te geven:</p>
+    <div class="code-block">
+        <button class="copy-button" onclick="copyToClipboard('git add templates/index.html')">Code kopiëren</button>
+        <code>git add templates/index.html</code>
+    </div>
+
+    <h2>Verwijderde Bestanden Herstellen</h2>
+    <p>Als je per ongeluk bestanden hebt verwijderd die door Git worden gevolgd, kun je deze herstellen.</p>
+    <ol>
+        <li><strong>Controleer welke bestanden zijn verwijderd:</strong> Gebruik <code>git status</code> om te zien welke bestanden zijn verwijderd.
+            <div class="code-block">
+                <button class="copy-button" onclick="copyToClipboard('git status')">Code kopiëren</button>
+                <code>git status</code>
+            </div>
+        </li>
+        <li><strong>Herstel de verwijderde bestanden:</strong> Gebruik <code>git restore</code> om de verwijderde bestanden te herstellen.
+            <div class="code-block">
+                <button class="copy-button" onclick="copyToClipboard('git restore path/naar/verwijderd/bestand')">Code kopiëren</button>
+                <code>git restore path/naar/verwijderd/bestand</code>
+            </div>
+        </li>
+        <li><strong>Commit de wijzigingen:</strong> Als je de verwijderingen wilt doorvoeren, commit dan de wijzigingen.
+            <div class="code-block">
+                <button class="copy-button" onclick="copyToClipboard('git add -u && git commit -m &quot;Verwijder Sandbox map&quot;')">Code kopiëren</button>
+                <code>git add -u && git commit -m "Verwijder Sandbox map"</code>
+            </div>
+        </li>
+    </ol>
+
+    <h2>Wijzigingen Pushen naar Heroku</h2>
+    <p>Nadat je wijzigingen hebt aangebracht, kun je deze naar Heroku pushen om je live-app bij te werken.</p>
+    <ol>
+        <li><strong>Controleer de status:</strong> Gebruik <code>git status</code> om te controleren welke wijzigingen klaar zijn om gecommit en gepusht te worden.
+            <div class="code-block">
+                <button class="copy-button" onclick="copyToClipboard('git status')">Code kopiëren</button>
+                <code>git status</code>
+            </div>
+        </li>
+        <li><strong>Commit de wijzigingen:</strong> Voeg de wijzigingen toe en commit ze.
+            <div class="code-block">
+                <button class="copy-button" onclick="copyToClipboard('git add -u && git commit -m &quot;Jouw beschrijvende bericht&quot;')">Code kopiëren</button>
+                <code>git add -u && git commit -m "Jouw beschrijvende bericht"</code>
+            </div>
+        </li>
+        <li><strong>Push de wijzigingen naar Heroku:</strong> Gebruik het volgende commando om de wijzigingen naar Heroku te pushen.
+            <div class="code-block">
+                <button class="copy-button" onclick="copyToClipboard('git push heroku main')">Code kopiëren</button>
+                <code>git push heroku main</code>
+            </div>
+        </li>
+        <li><strong>Bekijk de logs (optioneel):</strong> Controleer de Heroku logs om te zien of alles correct is gedeployed.
+            <div class="code-block">
+                <button class="copy-button" onclick="copyToClipboard('heroku logs --tail')">Code kopiëren</button>
+                <code>heroku logs --tail</code>
+            </div>
+        </li>
+    </ol>
+
+    <h2>Belangrijkste Git-commando's</h2>
+    <p>Hier is een lijst van de 25 belangrijkste Git-commando's die je vaak zult gebruiken.</p>
+    <ol>
+        <li><strong>Git Init:</strong> Initialiseer een nieuwe Git-repository.
+            <div class="code-block">
+                <button class="copy-button" onclick="copyToClipboard('git init')">Code kopiëren</button>
+                <code>git init</code>
+            </div>
+        </li>
+        <li><strong>Git Clone:</strong> Maak een kopie van een bestaande repository.
+            <div class="code-block">
+                <button class="copy-button" onclick="copyToClipboard('git clone URL')">Code kopiëren</button>
+                <code>git clone URL</code>
+            </div>
+        </li>
+        <li><strong>Git Status:</strong> Bekijk de huidige status van de repository.
+            <div class="code-block">
+                <button class="copy-button" onclick="copyToClipboard('git status')">Code kopiëren</button>
+                <code>git status</code>
+            </div>
+        </li>
+        <li><strong>Git Add:</strong> Voeg wijzigingen toe aan de staging area.
+            <div class="code-block">
+                <button class="copy-button" onclick="copyToClipboard('git add bestandsnaam.ext')">Code kopiëren</button>
+                <code>git add bestandsnaam.ext</code>
+            </div>
+        </li>
+        <li><strong>Git Commit:</strong> Sla de staged wijzigingen op in de repository.
+            <div class="code-block">
+                <button class="copy-button" onclick="copyToClipboard('git commit -m &quot;Beschrijvend bericht&quot;')">Code kopiëren</button>
+                <code>git commit -m "Beschrijvend bericht"</code>
+            </div>
+        </li>
+        <li><strong>Git Push:</strong> Verstuur de wijzigingen naar een remote repository.
+            <div class="code-block">
+                <button class="copy-button" onclick="copyToClipboard('git push origin main')">Code kopiëren</button>
+                <code>git push origin main</code>
+            </div>
+        </li>
+        <li><strong>Git Pull:</strong> Haal en integreer wijzigingen van een remote repository.
+            <div class="code-block">
+                <button class="copy-button" onclick="copyToClipboard('git pull origin main')">Code kopiëren</button>
+                <code>git pull origin main</code>
+            </div>
+        </li>
+        <li><strong>Git Branch:</strong> Maak een nieuwe branch of bekijk bestaande branches.
+            <div class="code-block">
+                <button class="copy-button" onclick="copyToClipboard('git branch')">Code kopiëren</button>
+                <code>git branch</code>
+            </div>
+        </li>
+        <li><strong>Git Checkout:</strong> Wissel van branch of herstel bestanden.
+            <div class="code-block">
+                <button class="copy-button" onclick="copyToClipboard('git checkout branchnaam')">Code kopiëren</button>
+                <code>git checkout branchnaam</code>
+            </div>
+        </li>
+        <li><strong>Git Merge:</strong> Voeg wijzigingen van een andere branch samen in de huidige branch.
+            <div class="code-block">
+                <button class="copy-button" onclick="copyToClipboard('git merge branchnaam')">Code kopiëren</button>
+                <code>git merge branchnaam</code>
+            </div>
+        </li>
+        <li><strong>Git Log:</strong> Bekijk de commitgeschiedenis.
+            <div class="code-block">
+                <button class="copy-button" onclick="copyToClipboard('git log')">Code kopiëren</button>
+                <code>git log</code>
+            </div>
+        </li>
+        <li><strong>Git Reset:</strong> Zet de huidige HEAD terug naar een eerdere commit.
+            <div class="code-block">
+                <button class="copy-button" onclick="copyToClipboard('git reset --hard commit-id')">Code kopiëren</button>
+                <code>git reset --hard commit-id</code>
+            </div>
+        </li>
+        <li><strong>Git Revert:</strong> Maak een nieuwe commit die de wijzigingen van een eerdere commit ongedaan maakt.
+            <div class="code-block">
+                <button class="copy-button" onclick="copyToClipboard('git revert commit-id')">Code kopiëren</button>
+                <code>git revert commit-id</code>
+            </div>
+        </li>
+        <li><strong>Git Stash:</strong> Sla wijzigingen tijdelijk op en herstel de werkdirectory naar een schone staat.
+            <div class="code-block">
+                <button class="copy-button" onclick="copyToClipboard('git stash')">Code kopiëren</button>
+                <code>git stash</code>
+            </div>
+        </li>
+        <li><strong>Git Stash Pop:</strong> Haal opgeslagen wijzigingen op uit de stash en pas ze toe.
+            <div class="code-block">
+                <button class="copy-button" onclick="copyToClipboard('git stash pop')">Code kopiëren</button>
+                <code>git stash pop</code>
+            </div>
+        </li>
+        <li><strong>Git Fetch:</strong> Haal wijzigingen van de remote repository zonder ze te mergen.
+            <div class="code-block">
+                <button class="copy-button" onclick="copyToClipboard('git fetch')">Code kopiëren</button>
+                <code>git fetch</code>
+            </div>
+        </li>
+        <li><strong>Git Remote:</strong> Beheer je remote repositories.
+            <div class="code-block">
+                <button class="copy-button" onclick="copyToClipboard('git remote -v')">Code kopiëren</button>
+                <code>git remote -v</code>
+            </div>
+        </li>
+        <li><strong>Git Tag:</strong> Markeer specifieke punten in de geschiedenis als belangrijk.
+            <div class="code-block">
+                <button class="copy-button" onclick="copyToClipboard('git tag -a v1.0 -m &quot;Versie 1.0&quot;')">Code kopiëren</button>
+                <code>git tag -a v1.0 -m "Versie 1.0"</code>
+            </div>
+        </li>
+        <li><strong>Git Diff:</strong> Toon de verschillen tussen de huidige status en de laatste commit.
+            <div class="code-block">
+                <button class="copy-button" onclick="copyToClipboard('git diff')">Code kopiëren</button>
+                <code>git diff</code>
+            </div>
+        </li>
+        <li><strong>Git Blame:</strong> Toon welke wijzigingen door welke auteur zijn aangebracht in een bestand.
+            <div class="code-block">
+                <button class="copy-button" onclick="copyToClipboard('git blame bestandsnaam.ext')">Code kopiëren</button>
+                <code>git blame bestandsnaam.ext</code>
+            </div>
+        </li>
+        <li><strong>Git Show:</strong> Toon gedetailleerde informatie over een specifieke commit.
+            <div class="code-block">
+                <button class="copy-button" onclick="copyToClipboard('git show commit-id')">Code kopiëren</button>
+                <code>git show commit-id</code>
+            </div>
+        </li>
+        <li><strong>Git Rm:</strong> Verwijder een bestand uit de werkdirectory en het staging area.
+            <div class="code-block">
+                <button class="copy-button" onclick="copyToClipboard('git rm bestandsnaam.ext')">Code kopiëren</button>
+                <code>git rm bestandsnaam.ext</code>
+            </div>
+        </li>
+        <li><strong>Git Clean:</strong> Verwijder ongetrackte bestanden uit de werkdirectory.
+            <div class="code-block">
+                <button class="copy-button" onclick="copyToClipboard('git clean -f')">Code kopiëren</button>
+                <code>git clean -f</code>
+            </div>
+        </li>
+    </ol>
+
+    <h2>Veelgestelde Vragen en Problemen</h2>
+    <ul>
+        <li><strong>Wat betekent de output van <code>git status</code>?</strong><br>De output laat zien of je in de <code>main</code> branch werkt, en of er ongetrackte bestanden zijn die nog niet aan Git zijn toegevoegd. Dit betekent dat er bestanden in je map staan die Git nog niet volgt.</li>
+        <li><strong>Hoe kan ik zien welke mappen Git volgt?</strong><br>Gebruik <code>git ls-files</code> om een lijst te zien van alle bestanden die Git volgt, inclusief bestanden in submappen.</li>
+        <li><strong>Wat gebeurt er als ik <code>git add</code> gebruik op een bestand in een submap?</strong><br>Als je <code>git add</code> gebruikt op een bestand in een submap (bijv. <code>git add templates/index.html</code>), dan wordt dat bestand correct toegevoegd en gevolgd door Git.</li>
+        <li><strong>Wat als ik <code>tree</code> wil gebruiken op Windows?</strong><br>Op Windows kun je het ingebouwde <code>tree /F</code> commando gebruiken om een boomstructuur van je bestanden en mappen te bekijken.</li>
+        <li><strong>Worden alle bestanden getrackt door Git?</strong><br>Alleen de bestanden die worden weergegeven door <code>git ls-files</code> worden getrackt door Git. Ongetrackte bestanden worden niet opgenomen in commits totdat je ze toevoegt met <code>git add</code>.</li>
+    </ul>
+
+    <h2>Gebruik van Git met Remote Repositories</h2>
+    <p>Git kan samenwerken met online diensten zoals GitHub of Heroku om je project op te slaan in de cloud en samenwerking mogelijk te maken.</p>
+    <ol>
+        <li><strong>Remote toevoegen:</strong>
+            <div class="code-block">
+                <button class="copy-button" onclick="copyToClipboard('git remote add origin https://github.com/gebruikersnaam/repositorynaam.git')">Code kopiëren</button>
+                <code>git remote add origin https://github.com/gebruikersnaam/repositorynaam.git</code>
+            </div>
+        </li>
+        <li><strong>Code pushen naar remote:</strong>
+            <div class="code-block">
+                <button class="copy-button" onclick="copyToClipboard('git push origin main')">Code kopiëren</button>
+                <code>git push origin main</code>
+            </div>
+        </li>
+    </ol>
+
+    <h2>Samenvatting</h2>
+    <p>Git is een krachtig hulpmiddel voor versiebeheer, waarmee je de geschiedenis van je project kunt bijhouden, samen kunt werken met anderen, en kunt terugkeren naar eerdere versies als dat nodig is. Door deze basiscommando's en concepten te begrijpen, kun je effectief gebruikmaken van Git in je eigen projecten.</p>
+    <p>Met deze handleiding ben je goed uitgerust om Git te gebruiken voor versiebeheer in je projecten, en je hebt nu ook antwoorden op veelvoorkomende vragen en problemen. Veel succes met je projecten!</p>
+
+    <script>
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(function() {
+                alert('Code gekopieerd naar klembord');
+            }, function(err) {
+                alert('Kon de code niet kopiëren: ', err);
+            });
+        }
+    </script>
+</body>
+</html>

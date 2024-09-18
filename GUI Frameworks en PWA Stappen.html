@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GUI Frameworks, PWA en Vergelijking Dart vs Python</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        .code-block {
+            background-color: #1e1e1e;
+            color: #dcdcdc;
+            padding: 15px;
+            border-radius: 5px;
+            position: relative;
+            margin-top: 20px;
+        }
+        .code-block code {
+            color: #9cdcfe;
+            font-family: Consolas, "Courier New", Courier, monospace;
+        }
+        .code-block .copy-button {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            padding: 5px 10px;
+            background-color: #007acc;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .code-block .copy-button:hover {
+            background-color: #005f9e;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>GUI Frameworks en PWA Stappen</h1>
+
+    <h2>1. GUI Frameworks Overzicht</h2>
+    <p>Als je een grafische gebruikersinterface (GUI) wilt bouwen voor zowel desktop als mobiel, zijn er verschillende frameworks die je kunt overwegen. Hier is een overzicht van populaire opties:</p>
+    
+    <h3>Kivy (Desktop en Mobiel)</h3>
+    <p>Kivy is een Python-framework dat je in staat stelt om zowel desktop- als mobiele applicaties te maken met één codebase. Het ondersteunt Windows, macOS, Linux, Android en iOS.</p>
+    <p><strong>Voordelen:</strong> Platformonafhankelijk, geschikt voor multi-touch interfaces.</p>
+    <p><strong>Nadelen:</strong> Geen ondersteuning voor web-gebaseerde applicaties.</p>
+    
+    <h3>Flutter (Desktop, Web en Mobiel)</h3>
+    <p>Flutter is een framework ontwikkeld door Google waarmee je apps kunt bouwen voor desktop, web en mobiele apparaten. Het vereist dat je programmeert in Dart, niet Python.</p>
+    <p><strong>Voordelen:</strong> Ondersteunt alle platformen (desktop, mobiel en web) met één codebase.</p>
+    <p><strong>Nadelen:</strong> Je moet Dart leren.</p>
+
+    <h3>Electron (Desktop en Web)</h3>
+    <p>Electron stelt je in staat om desktop-apps te bouwen met webtechnologieën (HTML, CSS, JavaScript). Electron apps draaien als een desktop-app maar worden gemaakt als een web-app.</p>
+    <p><strong>Voordelen:</strong> Geschikt voor zowel web als desktop, gemakkelijk te leren als je webontwikkeling kent.</p>
+    <p><strong>Nadelen:</strong> Hogere geheugengebruik en minder prestaties dan native desktop-apps.</p>
+
+    <h3>React Native + React (Mobiel en Web)</h3>
+    <p>React Native is een framework voor het bouwen van mobiele apps, terwijl React zelf wordt gebruikt voor webapplicaties. Met deze combinatie kun je een mobiele en webversie van je app bouwen.</p>
+    <p><strong>Voordelen:</strong> Eén codebase voor zowel web als mobiel, veel ondersteuning vanuit de community.</p>
+    <p><strong>Nadelen:</strong> Vereist kennis van JavaScript en het React-ecosysteem.</p>
+
+    <h2>2. Progressive Web Apps (PWA)</h2>
+    <p>Een Progressive Web App (PWA) is een webapplicatie die werkt als een native app op mobiele apparaten. PWA’s kunnen offline werken, pushmeldingen versturen en geïnstalleerd worden op het startscherm van mobiele apparaten.</p>
+
+    <h3>PWA Voordelen</h3>
+    <ul>
+        <li>Eén codebase voor zowel mobiel als desktop-web.</li>
+        <li>Geen aparte app store nodig.</li>
+        <li>Offline ondersteuning mogelijk via service workers.</li>
+    </ul>
+
+    <h3>PWA Voorbeeld met Flask/Django Backend</h3>
+    <p>Hieronder een voorbeeldstappenplan om een PWA te bouwen met een Python-backend zoals Flask of Django:</p>
+
+    <h4>Stap 1: Flask/Django Backend instellen</h4>
+    <div class="code-block">
+        <button class="copy-button" onclick="copyToClipboard('pip install Flask\nflask run')">Code kopiëren</button>
+        <code>pip install Flask<br>flask run</code>
+    </div>
+
+    <h4>Stap 2: Frontend opzetten (HTML, CSS, JavaScript)</h4>
+    <div class="code-block">
+        <button class="copy-button" onclick="copyToClipboard('<html>\n<head>\n</head>\n<body>\n</body>\n</html>')">Code kopiëren</button>
+        <code>&lt;html&gt;<br>&lt;head&gt;<br>&lt;/head&gt;<br>&lt;body&gt;<br>&lt;/body&gt;<br>&lt;/html&gt;</code>
+    </div>
+
+    <h4>Stap 3: Service Worker voor PWA-functionaliteit</h4>
+    <p>Service workers zijn scripts die draaien op de achtergrond en functies zoals caching en offline werking mogelijk maken.</p>
+    <div class="code-block">
+        <button class="copy-button" onclick="copyToClipboard('self.addEventListener(\'install\', event => {\n  // Cache resources\n});')">Code kopiëren</button>
+        <code>self.addEventListener('install', event => {<br>  // Cache resources<br>});</code>
+    </div>
+
+    <h4>Stap 4: PWA-ondersteuning toevoegen aan HTML</h4>
+    <div class="code-block">
+        <button class="copy-button" onclick="copyManifestHTML()">Code kopiëren</button>
+        <code>&lt;html&gt;<br>&lt;head&gt;<br>&lt;link rel="manifest" href="/manifest.json"&gt;<br>&lt;/head&gt;<br>&lt;/html&gt;</code>
+    </div>
+
+    <h2>3. Dart vs Python Vergelijking</h2>
+
+    <p>Zowel Dart als Python zijn veelzijdige talen, maar ze hebben verschillende sterke punten. Hier is een vergelijking van hun gebruik en toepassingen:</p>
+
+    <table>
+        <tr>
+            <th>Aspect</th>
+            <th>Dart (met Flutter)</th>
+            <th>Python</th>
+        </tr>
+        <tr>
+            <td>Cross-platform mobiele en desktop apps</td>
+            <td>Met Flutter kun je één codebase schrijven voor Android, iOS, web en desktop.</td>
+            <td>Python heeft Kivy en BeeWare, maar deze zijn minder populair dan Flutter.</td>
+        </tr>
+        <tr>
+            <td>Gebruikersinterfaces</td>
+            <td>Flutter biedt uitstekende prestaties en vloeiende UI's.</td>
+            <td>Python's Tkinter, PyQt, en Kivy zijn vooral geschikt voor desktop, maar minder geavanceerd dan Flutter.</td>
+        </tr>
+        <tr>
+            <td>Data-analyse en machine learning</td>
+            <td>Dart heeft weinig ondersteuning voor data-analyse of machine learning.</td>
+            <td>Python is toonaangevend met bibliotheken zoals NumPy, Pandas, TensorFlow en Scikit-learn.</td>
+        </tr>
+        <tr>
+            <td>Server-side ontwikkeling</td>
+            <td>Dart wordt zelden gebruikt voor server-side ontwikkeling. Aqueduct (nu gestopt) was een optie.</td>
+            <td>Python is zeer populair voor back-end ontwikkeling met frameworks zoals Django en Flask.</td>
+        </tr>
+        <tr>
+            <td>Automatisering en scripting</td>
+            <td>Dart is minder geschikt voor kleine scripts en automatisering.</td>
+            <td>Python is populair voor automatisering en scripting vanwege zijn eenvoud en brede ondersteuning.</td>
+        </tr>
+    </table>
+
+    <h3>Conclusie</h3>
+    <p>Als je zowel desktop- als mobiele ondersteuning wilt via een webapplicatie, is het gebruik van een PWA met een Flask of Django backend een krachtige optie. Voor mobiele en desktop-apps biedt Dart met Flutter uitstekende mogelijkheden voor cross-platform ontwikkeling, terwijl Python beter geschikt is voor data-analyse, server-side webontwikkeling en automatisering.</p>
+
+    <script>
+        function copyManifestHTML() {
+            const manifestHTML = '<html>\n<head>\n<link rel="manifest" href="/manifest.json">\n</head>\n</html>';
+            copyToClipboard(manifestHTML);
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(function() {
+                alert('Code gekopieerd naar klembord');
+            }, function(err) {
+                alert('Kon de code niet kopiëren: ' + err);
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heroku Handleiding</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+            padding: 10px;
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        .code-block {
+            background-color: #1e1e1e;
+            color: #dcdcdc;
+            padding: 15px;
+            border-radius: 5px;
+            position: relative;
+            margin-top: 20px;
+            overflow-x: auto;
+        }
+        .code-block code {
+            color: #9cdcfe;
+            font-family: Consolas, "Courier New", Courier, monospace;
+            white-space: pre-wrap;
+        }
+        .code-block .copy-button {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            padding: 5px 10px;
+            background-color: #007acc;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .code-block .copy-button:hover {
+            background-color: #005f9e;
+        }
+        @media (max-width: 600px) {
+            body {
+                font-size: 14px;
+            }
+            .code-block {
+                padding: 10px;
+            }
+            .code-block .copy-button {
+                font-size: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Heroku Handleiding</h1>
+
+    <h2>Inleiding tot Heroku</h2>
+    <p>Heroku is een Platform-as-a-Service (PaaS) dat ontwikkelaars in staat stelt om applicaties snel en eenvoudig te bouwen, te deployen en te beheren in de cloud. Het is populair vanwege de eenvoudige integratie met Git en de mogelijkheid om applicaties zonder veel moeite op schaal te draaien.</p>
+
+    <h2>Installatie van Heroku CLI</h2>
+    <ol>
+        <li><strong>Download Heroku CLI:</strong> Ga naar de <a href="https://devcenter.heroku.com/articles/heroku-cli">Heroku CLI downloadpagina</a> en download de versie voor jouw besturingssysteem.</li>
+        <li><strong>Installeer Heroku CLI:</strong> Volg de installatie-instructies van het installatieprogramma.</li>
+        <li><strong>Controleer de installatie:</strong> Open de terminal of command prompt en typ:
+            <div class="code-block">
+                <button class="copy-button" onclick="copyToClipboard('heroku --version')">Code kopiëren</button>
+                <code>heroku --version</code>
+            </div>
+        </li>
+    </ol>
+
+    <h2>Een Heroku-app Aanmaken</h2>
+    <ol>
+        <li><strong>Log in op Heroku:</strong> Voer het volgende commando uit om in te loggen bij Heroku via de CLI:
+            <div class="code-block">
+                <button class="copy-button" onclick="copyToClipboard('heroku login')">Code kopiëren</button>
+                <code>heroku login</code>
+            </div>
+        </li>
+        <li><strong>Maak een nieuwe Heroku-app:</strong> Ga naar je projectmap en voer het volgende commando uit:
+            <div class="code-block">
+                <button class="copy-button" onclick="copyToClipboard('heroku create naam-van-je-app')">Code kopiëren</button>
+                <code>heroku create naam-van-je-app</code>
+            </div>
+        </li>
+    </ol>
+
+    <h2>Een Applicatie Deployen naar Heroku</h2>
+    <ol>
+        <li><strong>Initialiseer een Git-repository:</strong> Als je project nog niet is geïnitialiseerd als Git-repository, doe dat dan met:
+            <div class="code-block">
+                <button class="copy-button" onclick="copyToClipboard('git init')">Code kopiëren</button>
+                <code>git init</code>
+            </div>
+        </li>
+        <li><strong>Voeg je bestanden toe aan Git:</strong>
+            <div class="code-block">
+                <button class="copy-button" onclick="copyToClipboard('git add .')">Code kopiëren</button>
+                <code>git add .</code>
+            </div>
+        </li>
+        <li><strong>Commit je wijzigingen:</strong>
+            <div class="code-block">
+                <button class="copy-button" onclick='copyToClipboard("git commit -m \"Initial commit\"")'>Code kopiëren</button>
+                <code>git commit -m "Initial commit"</code>
+            </div>
+        </li>
+        <li><strong>Deploy naar Heroku:</strong> Push je code naar Heroku met het volgende commando:
+            <div class="code-block">
+                <button class="copy-button" onclick="copyToClipboard('git push heroku main')">Code kopiëren</button>
+                <code>git push heroku main</code>
+            </div>
+        </li>
+    </ol>
+
+    <h2>Veelvoorkomende Problemen en Oplossingen</h2>
+    <ol>
+        <li><strong>Port Binding Probleem (R10 Error):</strong> Heroku vereist dat je applicatie luistert op een door Heroku toegewezen poort. Zorg ervoor dat je de poort instelt via de omgevingsvariabele <code>$PORT</code>.
+            <div class="code-block">
+                <button class="copy-button" onclick='copyToClipboard("import os\nport = int(os.environ.get(\"PORT\", 5000))\napp.run(host=\"0.0.0.0\", port=port)")'>Code kopiëren</button>
+                <code>import os<br>port = int(os.environ.get("PORT", 5000))<br>app.run(host="0.0.0.0", port=port)</code>
+            </div>
+        </li>
+        <li><strong>Compatibiliteitsproblemen met Afhankelijkheden:</strong> Soms kunnen bepaalde versies van bibliotheken zoals Numpy en Pandas niet goed samenwerken. Dit kan leiden tot crashes.
+            <div class="code-block">
+                <code>requirements.txt file update with specific versions</code>
+            </div>
+        </li>
+        <li><strong>Heroku Dyno Limieten:</strong> Gratis dyno's slapen na 30 minuten inactiviteit en hebben een maandelijkse limiet op het aantal uren dat ze actief kunnen zijn. Overweeg een upgrade naar betaalde dyno's als je applicatie continu beschikbaar moet zijn.</li>
+    </ol>
+
+    <h2>Heroku Logs en Debugging</h2>
+    <ol>
+        <li><strong>Bekijk de Heroku logs:</strong>
+            <div class="code-block">
+                <button class="copy-button" onclick="copyToClipboard('heroku logs --tail')">Code kopiëren</button>
+                <code>heroku logs --tail</code>
+            </div>
+        </li>
+        <li><strong>Herstart je app:</strong> Soms kan een herstart van je dyno helpen om problemen op te lossen.
+            <div class="code-block">
+                <button class="copy-button" onclick="copyToClipboard('heroku restart')">Code kopiëren</button>
+                <code>heroku restart</code>
+            </div>
+        </li>
+    </ol>
+
+    <h2>Beheer van Omgevingsvariabelen</h2>
+    <ol>
+        <li><strong>Instellen van een omgevingsvariabele:</strong>
+            <div class="code-block">
+                <button class="copy-button" onclick="copyToClipboard('heroku config:set VARIABLE_NAME=value')">Code kopiëren</button>
+                <code>heroku config:set VARIABLE_NAME=value</code>
+            </div>
+        </li>
+        <li><strong>Bekijken van omgevingsvariabelen:</strong>
+            <div class="code-block">
+                <button class="copy-button" onclick="copyToClipboard('heroku config')">Code kopiëren</button>
+                <code>heroku config</code>
+            </div>
+        </li>
+    </ol>
+
+    <h2>Kostenbeheer op Heroku</h2>
+    <ol>
+        <li><strong>Controleer je dyno-gebruik:</strong>
+            <div class="code-block">
+                <button class="copy-button" onclick="copyToClipboard('heroku ps')">Code kopiëren</button>
+                <code>heroku ps</code>
+            </div>
+        </li>
+        <li><strong>Upgrade naar een betaalde dyno:</strong> als je meer resources nodig hebt:
+            <div class="code-block">
+                <button class="copy-button" onclick="copyToClipboard('heroku ps:scale web=1:Standard-1X')">Code kopiëren</button>
+                <code>heroku ps:scale web=1:Standard-1X</code>
+            </div>
+        </li>
+        <li><strong>Beheer add-ons:</strong> Sommige add-ons kunnen kosten met zich meebrengen. Beheer deze zorgvuldig via het Heroku-dashboard of de CLI.</li>
+    </ol>
+
+    <h2>Samenvatting</h2>
+    <p>Heroku is een krachtig en gebruiksvriendelijk platform voor het hosten van webapplicaties. Met de bovenstaande commando's en voorbeelden kun je snel aan de slag om je applicaties te deployen, beheren en debuggen. Houd je kosten in de gaten door slim gebruik te maken van dyno's en add-ons, en zorg ervoor dat je omgevingsvariabelen correct instelt voor een efficiënte configuratie.</p>
+    <p>Met deze handleiding heb je de tools in handen om Heroku effectief te gebruiken in je ontwikkelproces.</p>
+
+    <script>
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(function() {
+                alert('Code gekopieerd naar klembord');
+            }, function(err) {
+                alert('Kon de code niet kopiëren: ', err);
+            });
+        }
+    </script>
+</body>
+</html>
