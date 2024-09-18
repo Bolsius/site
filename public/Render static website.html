@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Render Deployment Handleiding</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+            padding: 10px;
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        .code-block {
+            background-color: #1e1e1e;
+            color: #dcdcdc;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            overflow-x: auto;
+        }
+        .code-block code {
+            color: #9cdcfe;
+            font-family: Consolas, "Courier New", Courier, monospace;
+        }
+        .copy-button {
+            position: relative;
+            right: 10px;
+            top: 10px;
+            padding: 5px 10px;
+            background-color: #007acc;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        @media (max-width: 600px) {
+            body {
+                font-size: 14px;
+            }
+            .code-block {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Handleiding voor het Uploaden naar Render</h1>
+    
+    <h2>Stap 1: Initialiseer een Git Repository</h2>
+    <ol>
+        <li>Navigeer naar je projectmap:
+            <div class="code-block">
+                <button class="copy-button" onclick="copyToClipboard('cd pad/naar/jouw/project')">Kopieer</button>
+                <code>cd pad/naar/jouw/project</code>
+            </div>
+        </li>
+        <li>Initialiseer Git:
+            <div class="code-block">
+                <button class="copy-button" onclick="copyToClipboard('git init')">Kopieer</button>
+                <code>git init</code>
+            </div>
+        </li>
+        <li>Voeg bestanden toe aan Git:
+            <div class="code-block">
+                <button class="copy-button" onclick="copyToClipboard('git add .')">Kopieer</button>
+                <code>git add .</code>
+            </div>
+        </li>
+        <li>Commit de wijzigingen:
+            <div class="code-block">
+                <button class="copy-button" onclick="copyToClipboard('git commit -m \"Initial commit\"')">Kopieer</button>
+                <code>git commit -m "Initial commit"</code>
+            </div>
+        </li>
+    </ol>
+
+    <h2>Stap 2: Koppel met GitHub en Push</h2>
+    <ol>
+        <li>Maak een GitHub repository en voeg de remote toe:
+            <div class="code-block">
+                <button class="copy-button" onclick="copyToClipboard('git remote add origin https://github.com/jouw-gebruikersnaam/jouw-repository.git')">Kopieer</button>
+                <code>git remote add origin https://github.com/jouw-gebruikersnaam/jouw-repository.git</code>
+            </div>
+        </li>
+        <li>Push de bestanden naar GitHub:
+            <div class="code-block">
+                <button class="copy-button" onclick="copyToClipboard('git push -u origin main')">Kopieer</button>
+                <code>git push -u origin main</code>
+            </div>
+        </li>
+    </ol>
+
+    <h2>Stap 3: Maak een Render Account en Koppel met GitHub</h2>
+    <ol>
+        <li>Ga naar <a href="https://render.com">render.com</a> en maak een account aan.</li>
+        <li>Koppel je GitHub account door in te loggen op Render en de permissies toe te staan.</li>
+    </ol>
+
+    <h2>Stap 4: Maak een nieuwe Web Service</h2>
+    <ol>
+        <li>Na het inloggen op Render, klik op “New” en kies “Web Service”.</li>
+        <li>Selecteer de repository die je wilt deployen of voer de Git URL in. Kies daarna “Continue”.</li>
+    </ol>
+
+    <h2>Stap 5: Configureer de Web Service</h2>
+    <ol>
+        <li>Geef je service een naam (bijv. “Handleiding”).</li>
+        <li>Kies de juiste build-instellingen (bijv. public voor HTML). Vul de root directory in (bijv. <code>./public</code>).</li>
+    </ol>
+
+    <h2>Stap 6: Voltooi de Deploy</h2>
+    <ol>
+        <li>Render zal nu de bestanden builden en je site live zetten. Volg de logs op Render om de voortgang te volgen.</li>
+        <li>Zodra de deploy is voltooid, kun je je website openen via de gegenereerde URL (bijv. <a href="#">https://jouw-website.onrender.com</a>).</li>
+    </ol>
+
+    <h2>Veelvoorkomende Problemen</h2>
+    <p>Als je een "404 Not Found" foutmelding krijgt, controleer of je een <code>index.html</code> bestand hebt geüpload en of dit zich in de juiste map bevindt.</p>
+
+    <script>
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(function() {
+                alert('Code gekopieerd naar klembord');
+            }, function(err) {
+                alert('Kon de code niet kopiëren: ', err);
+            });
+        }
+    </script>
+</body>
+</html>
