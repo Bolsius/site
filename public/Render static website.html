@@ -28,7 +28,7 @@
             font-family: Consolas, "Courier New", Courier, monospace;
         }
         .copy-button {
-            position: relative;
+            position: absolute;
             right: 10px;
             top: 10px;
             padding: 5px 10px;
@@ -39,6 +39,9 @@
             cursor: pointer;
             font-size: 12px;
         }
+        .copy-button:hover {
+            background-color: #005f9e;
+        }
         @media (max-width: 600px) {
             body {
                 font-size: 14px;
@@ -46,12 +49,15 @@
             .code-block {
                 padding: 10px;
             }
+            .copy-button {
+                font-size: 10px;
+            }
         }
     </style>
 </head>
 <body>
     <h1>Handleiding voor het Uploaden naar Render</h1>
-    
+
     <h2>Stap 1: Initialiseer een Git Repository</h2>
     <ol>
         <li>Navigeer naar je projectmap:
@@ -74,7 +80,7 @@
         </li>
         <li>Commit de wijzigingen:
             <div class="code-block">
-                <button class="copy-button" onclick="copyToClipboard('git commit -m \"Initial commit\"')">Kopieer</button>
+                <button class="copy-button" onclick="copyToClipboard('git commit -m &quot;Initial commit&quot;')">Kopieer</button>
                 <code>git commit -m "Initial commit"</code>
             </div>
         </li>
@@ -123,12 +129,52 @@
     <h2>Veelvoorkomende Problemen</h2>
     <p>Als je een "404 Not Found" foutmelding krijgt, controleer of je een <code>index.html</code> bestand hebt geüpload en of dit zich in de juiste map bevindt.</p>
 
+    <h2>Handmatig een nieuwe deploy forceren via de terminal</h2>
+    <p>Als Render je wijzigingen niet automatisch oppikt, volg dan deze stappen:</p>
+
+    <ol>
+        <li>Controleer de status van je repository om te zien of er onopgeslagen bestanden zijn:
+            <div class="code-block">
+                <button class="copy-button" onclick="copyToClipboard('git status')">Kopieer</button>
+                <code>git status</code>
+            </div>
+        </li>
+        <li>Voeg onopgeslagen bestanden toe:
+            <div class="code-block">
+                <button class="copy-button" onclick="copyToClipboard('git add .')">Kopieer</button>
+                <code>git add .</code>
+            </div>
+        </li>
+        <li>Commit de wijzigingen:
+            <div class="code-block">
+                <button class="copy-button" onclick="copyToClipboard('git commit -m &quot;Beschrijving van de wijziging&quot;')">Kopieer</button>
+                <code>git commit -m "Beschrijving van de wijziging"</code>
+            </div>
+        </li>
+        <li>Push de wijzigingen naar GitHub:
+            <div class="code-block">
+                <button class="copy-button" onclick="copyToClipboard('git push origin main')">Kopieer</button>
+                <code>git push origin main</code>
+            </div>
+        </li>
+        <li>Als Render je wijzigingen niet oppikt, forceer een nieuwe commit om een deploy te triggeren:
+            <div class="code-block">
+                <button class="copy-button" onclick="copyToClipboard('git commit --allow-empty -m &quot;Trigger rebuild&quot;')">Kopieer</button>
+                <code>git commit --allow-empty -m "Trigger rebuild"</code>
+            </div>
+        </li>
+    </ol>
+
     <script>
         function copyToClipboard(text) {
+            if (!navigator.clipboard) {
+                alert('Clipboard API niet ondersteund in deze browser');
+                return;
+            }
             navigator.clipboard.writeText(text).then(function() {
                 alert('Code gekopieerd naar klembord');
             }, function(err) {
-                alert('Kon de code niet kopiëren: ', err);
+                alert(`Kon de code niet kopiëren: ${err}`);
             });
         }
     </script>
