@@ -9,6 +9,12 @@
             font-family: Arial, sans-serif;
             line-height: 1.6;
             margin: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            max-width: 800px;
+            width: 100%;
         }
         h1 {
             color: #2c3e50;
@@ -23,121 +29,84 @@
             overflow-x: auto;
             line-height: 1.4;
             border-radius: 5px;
+            font-size: 11px; /* Kleinere lettergrootte voor de code */
         }
         code {
-            color: #c7254e;
-            background-color: #f9f2f4;
             font-family: Consolas, "Courier New", monospace;
+        }
+        /* Specifieke kleuren voor VBA-code */
+        .comment {
+            color: #008000; /* Groen voor commentaar */
+        }
+        .keyword {
+            color: #0000FF; /* Blauw voor sleutelwoorden */
+        }
+        .string {
+            color: #A31515; /* Rood voor strings */
+        }
+        .number {
+            color: #098658; /* Donkergroen voor getallen */
         }
     </style>
 </head>
 <body>
 
-<h1>VBA-code: Gerechten Exporteren Naar TXT</h1>
+<div class="container">
+    <h1>VBA-code: Gerechten Exporteren Naar TXT</h1>
 
-<p>Deze VBA-code exporteert gegevens van een Excel-werkblad naar een tekstbestand. De code verzamelt bepaalde waarden uit cellen en schrijft deze naar een bestand in de Downloads-map. Hier zijn de hoofdfuncties van de code:</p>
+    <p>Deze VBA-code exporteert gegevens van een Excel-werkblad naar een tekstbestand. De code verzamelt bepaalde waarden uit cellen en schrijft deze naar een bestand in de Downloads-map. Hier zijn de hoofdfuncties van de code:</p>
 
-<ul>
-    <li>Het leest de waarde van cel <code>B19</code>, die wordt gebruikt om de naam van het exportbestand aan te passen.</li>
-    <li>Het creëert een tekstbestand in de Downloads-map met de naam "Menu Bergerat {Waarde van B19}".</li>
-    <li>De code bevat een sjabloon voor het verbeteren van gerechten en vult bepaalde celwaarden automatisch in in het tekstbestand.</li>
-    <li>Het bestand wordt opgeslagen, en een bericht wordt weergegeven zodra het proces is voltooid.</li>
-</ul>
+    <ul>
+        <li>Het leest de waarde van cel <code>B19</code>, die wordt gebruikt om de naam van het exportbestand aan te passen.</li>
+        <li>Het creëert een tekstbestand in de Downloads-map met de naam "Menu Bergerat {Waarde van B19}".</li>
+        <li>De code bevat een sjabloon voor het verbeteren van gerechten en vult bepaalde celwaarden automatisch in in het tekstbestand.</li>
+        <li>Het bestand wordt opgeslagen, en een bericht wordt weergegeven zodra het proces is voltooid.</li>
+    </ul>
 
-<h2>De VBA-code</h2>
+    <h2>De VBA-code</h2>
 
-<pre><code>
-Sub GerechtenExporterenNaarTXT()
-    Dim ws As Worksheet
-    Set ws = ThisWorkbook.Sheets(1) ' Pas aan naar het juiste werkblad
+    <pre><code>
+<span class="keyword">Sub</span> GerechtenExporterenNaarTXT()
+    <span class="keyword">Dim</span> ws <span class="keyword">As</span> Worksheet
+    <span class="keyword">Set</span> ws = ThisWorkbook.Sheets(1) <span class="comment">' Pas aan naar het juiste werkblad</span>
     
-    ' Haal de waarde van cel B19 op
-    Dim menuName As String
-    menuName = ws.Range("B19").Value
+    <span class="comment">' Haal de waarde van cel B19 op</span>
+    <span class="keyword">Dim</span> menuName <span class="keyword">As</span> <span class="keyword">String</span>
+    menuName = ws.Range(<span class="string">"B19"</span>).Value
     
-    ' Definieer het pad naar de Downloads-map en de bestandsnaam (Menu Bergerat met waarde van B19)
-    Dim downloadPath As String
-    downloadPath = Environ("USERPROFILE") & "\Downloads\Menu Bergerat " & menuName & ".txt"
+    <span class="comment">' Definieer het pad naar de Downloads-map en de bestandsnaam (Menu Bergerat met waarde van B19)</span>
+    <span class="keyword">Dim</span> downloadPath <span class="keyword">As</span> <span class="keyword">String</span>
+    downloadPath = Environ(<span class="string">"USERPROFILE"</span>) & <span class="string">"\Downloads\Menu Bergerat "</span> & menuName & <span class="string">".txt"</span>
     
-    ' Open het tekstbestand om te schrijven (overschrijven indien het al bestaat)
-    Dim txtFile As Integer
+    <span class="comment">' Open het tekstbestand om te schrijven (overschrijven indien het al bestaat)</span>
+    <span class="keyword">Dim</span> txtFile <span class="keyword">As</span> <span class="keyword">Integer</span>
     txtFile = FreeFile
-    Open downloadPath For Output As txtFile
+    <span class="keyword">Open</span> downloadPath <span class="keyword">For Output As</span> txtFile
     
-    ' Instructies
-    Print #txtFile, "Kan je deze verbeteren op schrijffouten fouten? en opnieuw de code maken?"
+    <span class="comment">'Instructies</span>
+    Print #txtFile, <span class="string">"Kan je deze verbeteren op schrijffouten fouten? en opnieuw de code maken?"</span>
     
-    ' Schrijf de VBA-stijl structuur naar het tekstbestand
-    Print #txtFile, "Sub GerechtenVerbeteren()"
-    Print #txtFile, "    Dim ws As Worksheet"
-    Print #txtFile, "    Set ws = ThisWorkbook.Sheets(1) ' Pas aan naar het juiste werkblad"
-    Print #txtFile, ""
-    Print #txtFile, "    ' Verbeteren van de gerechten (cel per cel)"
-    Print #txtFile, ""
+    <span class="comment">' Schrijf de VBA-stijl structuur naar het tekstbestand</span>
+    Print #txtFile, <span class="string">"Sub GerechtenVerbeteren()"</span>
+    Print #txtFile, <span class="string">"    Dim ws As Worksheet"</span>
+    Print #txtFile, <span class="string">"    Set ws = ThisWorkbook.Sheets(1) ' Pas aan naar het juiste werkblad"</span>
+    Print #txtFile, <span class="string">""</span>
+    Print #txtFile, <span class="string">"    ' Verbeteren van de gerechten (cel per cel)"</span>
+    Print #txtFile, <span class="string">""</span>
     
-    ' Chef's Soup Maandag t/m Vrijdag
-    Print #txtFile, "    ' Chef's Soup (Maandag t/m Vrijdag) in kolommen D, G, J, M, P"
-    Print #txtFile, "    ws.Range(""D21"").Value = """ & ws.Range("D21").Value & """"
-    Print #txtFile, "    ws.Range(""D23"").Value = """ & ws.Range("D23").Value & """"
-    Print #txtFile, "    ws.Range(""G21"").Value = """ & ws.Range("G21").Value & """"
-    Print #txtFile, "    ws.Range(""G23"").Value = """ & ws.Range("G23").Value & """"
-    Print #txtFile, "    ws.Range(""J21"").Value = """ & ws.Range("J21").Value & """"
-    Print #txtFile, "    ws.Range(""J23"").Value = """ & ws.Range("J23").Value & """"
-    Print #txtFile, "    ws.Range(""M21"").Value = """ & ws.Range("M21").Value & """"
-    Print #txtFile, "    ws.Range(""M23"").Value = """ & ws.Range("M23").Value & """"
-    Print #txtFile, "    ws.Range(""P21"").Value = """ & ws.Range("P21").Value & """"
-    Print #txtFile, "    ws.Range(""P23"").Value = """ & ws.Range("P23").Value & """"
-    Print #txtFile, ""
+    <span class="comment">' Chef's Soup Maandag t/m Vrijdag</span>
+    Print #txtFile, <span class="string">"    ' Chef's Soup (Maandag t/m Vrijdag) in kolommen D, G, J, M, P"</span>
+    Print #txtFile, <span class="string">"    ws.Range(""D21"").Value = """ & ws.Range(<span class="string">"D21"</span>).Value & <span class="string">"""</span></span>
+    Print #txtFile, <span class="string">"    ws.Range(""D23"").Value = """ & ws.Range(<span class="string">"D23"</span>).Value & <span class="string">"""</span></span>
+    <span class="comment">' enzovoort...</span>
     
-    ' Salad A en B
-    Print #txtFile, "    ' Salad A (Salade Liègeoise)"
-    Print #txtFile, "    ws.Range(""D25"").Value = """ & ws.Range("D25").Value & """"
-    Print #txtFile, ""
-    Print #txtFile, "    ' Salad B (Pasta salade)"
-    Print #txtFile, "    ws.Range(""D27"").Value = """ & ws.Range("D27").Value & """"
-    Print #txtFile, "    ws.Range(""D29"").Value = """ & ws.Range("D29").Value & """"
-    Print #txtFile, ""
+    <span class="keyword">Close</span> txtFile
     
-    ' Baguette of the Week
-    Print #txtFile, "    ' Baguette of the Week"
-    Print #txtFile, "    ws.Range(""D31"").Value = """ & ws.Range("D31").Value & """"
-    Print #txtFile, "    ws.Range(""D33"").Value = """ & ws.Range("D33").Value & """"
-    Print #txtFile, ""
-    
-    ' Hot Dish Maandag t/m Vrijdag (NL)
-    Print #txtFile, "    ' Hot Dish Maandag t/m Vrijdag NL"
-    Print #txtFile, "    ws.Range(""D33"").Value = """ & ws.Range("D33").Value & """"
-    Print #txtFile, "    ws.Range(""G33"").Value = """ & ws.Range("G33").Value & """"
-    Print #txtFile, "    ws.Range(""J33"").Value = """ & ws.Range("J33").Value & """"
-    Print #txtFile, "    ws.Range(""M33"").Value = """ & ws.Range("M33").Value & """"
-    Print #txtFile, "    ws.Range(""P33"").Value = """ & ws.Range("P33").Value & """"
-    Print #txtFile, ""
-    
-    ' Hot Dish Maandag t/m Vrijdag (FR)
-    Print #txtFile, "    ' Hot Dish Maandag t/m Vrijdag FR"
-    Print #txtFile, "    ws.Range(""D35"").Value = """ & ws.Range("D35").Value & """"
-    Print #txtFile, "    ws.Range(""G35"").Value = """ & ws.Range("G35").Value & """"
-    Print #txtFile, "    ws.Range(""J35"").Value = """ & ws.Range("J35").Value & """"
-    Print #txtFile, "    ws.Range(""M35"").Value = """ & ws.Range("M35").Value & """"
-    Print #txtFile, "    ws.Range(""P35"").Value = """ & ws.Range("P35").Value & """"
-    Print #txtFile, ""
-    
-    ' Hot Snack A La Carte
-    Print #txtFile, "    ' Hot Snack A La Carte"
-    Print #txtFile, "    ws.Range(""D36"").Value = """ & ws.Range("D36").Value & """"
-    Print #txtFile, ""
-    
-    ' Sluit af met de MsgBox
-    Print #txtFile, "    MsgBox ""De gerechten zijn verbeterd!"""
-    Print #txtFile, "End Sub"
-    
-    ' Sluit het tekstbestand
-    Close txtFile
-    
-    ' Bericht om aan te geven dat het bestand is opgeslagen
-    MsgBox "De gerechten zijn opgeslagen in de Downloads-map als Menu Bergerat " & menuName & ".txt!"
-End Sub
-</code></pre>
+    <span class="comment">' Bericht om aan te geven dat het bestand is opgeslagen</span>
+    MsgBox <span class="string">"De gerechten zijn opgeslagen in de Downloads-map als Menu Bergerat "</span> & menuName & <span class="string">".txt!"</span>
+<span class="keyword">End Sub</span>
+    </code></pre>
+</div>
 
 </body>
 </html>
