@@ -66,145 +66,98 @@
     <h2>De VBA-code</h2>
 
     <pre><code>
-<span class="keyword">Sub</span> GerechtenExporterenNaarTXT()
-    <span class="keyword">Dim</span> ws <span class="keyword">As</span> Worksheet
-    <span class="keyword">Set</span> ws = ThisWorkbook.Sheets(1) <span class="comment">' Pas aan naar het juiste werkblad</span>
-    
-    <span class="comment">' Haal de waarde van cel B19 op</span>
-    <span class="keyword">Dim</span> menuName <span class="keyword">As</span> <span class="keyword">String</span>
-    menuName = ws.Range(<span class="string">"B19"</span>).Value
-    
-    <span class="comment">' Definieer het pad naar de Downloads-map en de bestandsnaam (Menu Bergerat met waarde van B19)</span>
-    <span class="keyword">Dim</span> downloadPath <span class="keyword">As</span> <span class="keyword">String</span>
-    downloadPath = Environ(<span class="string">"USERPROFILE"</span>) & <span class="string">"\Downloads\Menu Bergerat "</span> & menuName & <span class="string">".txt"</span>
-    
-    <span class="comment">' Open het tekstbestand om te schrijven (overschrijven indien het al bestaat)</span>
-    <span class="keyword">Dim</span> txtFile <span class="keyword">As</span> <span class="keyword">Integer</span>
-    txtFile = FreeFile
-    <span class="keyword">Open</span> downloadPath <span class="keyword">For Output As</span> txtFile
-    
-    <span class="comment">' Schrijf de titel en een separator</span>
-    Print #txtFile, <span class="string">"Menu Bergerat - Gerechten Export"</span>
-    Print #txtFile, <span class="string">"----------------------------------------"</span>
-    Print #txtFile, <span class="string">""</span>
-    
-    <span class="comment">' Chef's Soup Maandag t/m Vrijdag</span>
-    Print #txtFile, <span class="string">"Chef's Soup"</span>
-    Print #txtFile, <span class="string">"------------------------"</span>
-    Print #txtFile, <span class="string">"Maandag: "</span> & ws.Range(<span class="string">"D21"</span>).Value
-    Print #txtFile, <span class="string">"Dinsdag: "</span> & ws.Range(<span class="string">"G21"</span>).Value
-    Print #txtFile, <span class="string">"Woensdag: "</span> & ws.Range(<span class="string">"J21"</span>).Value
-    Print #txtFile, <span class="string">"Donderdag: "</span> & ws.Range(<span class="string">"M21"</span>).Value
-    Print #txtFile, <span class="string">"Vrijdag: "</span> & ws.Range(<span class="string">"P21"</span>).Value
-    Print #txtFile, <span class="string">""</span>
-
-    <span class="comment">' Chef's Soup FR Maandag t/m Vrijdag</span>
-    Print #txtFile, <span class="string">"Chef's Soup FR"</span>
-    Print #txtFile, <span class="string">"------------------------"</span>
-    Print #txtFile, <span class="string">"Maandag: "</span> & ws.Range(<span class="string">"D23"</span>).Value
-    Print #txtFile, <span class="string">"Dinsdag: "</span> & ws.Range(<span class="string">"G23"</span>).Value
-    Print #txtFile, <span class="string">"Woensdag: "</span> & ws.Range(<span class="string">"J23"</span>).Value
-    Print #txtFile, <span class="string">"Donderdag: "</span> & ws.Range(<span class="string">"M23"</span>).Value
-    Print #txtFile, <span class="string">"Vrijdag: "</span> & ws.Range(<span class="string">"P23"</span>).Value
-    Print #txtFile, <span class="string">""</span>
-    
-    <span class="comment">' Salade A Maandag t/m Vrijdag</span>
-    Print #txtFile, <span class="string">"Salade A"</span>
-    Print #txtFile, <span class="string">"------------------------"</span>
-    Print #txtFile, <span class="string">"Maandag: "</span> & ws.Range(<span class="string">"D24"</span>).Value
-    Print #txtFile, <span class="string">"Dinsdag: "</span> & ws.Range(<span class="string">"G24"</span>).Value
-    Print #txtFile, <span class="string">"Woensdag: "</span> & ws.Range(<span class="string">"J24"</span>).Value
-    Print #txtFile, <span class="string">"Donderdag: "</span> & ws.Range(<span class="string">"M24"</span>).Value
-    Print #txtFile, <span class="string">"Vrijdag: "</span> & ws.Range(<span class="string">"P24"</span>).Value
-    Print #txtFile, <span class="string">""</span>
-    
-    <span class="comment">' Salade A FR Maandag t/m Vrijdag</span>
-    Print #txtFile, <span class="string">"Salade A FR"</span>
-    Print #txtFile, <span class="string">"------------------------"</span>
-    Print #txtFile, <span class="string">"Maandag: "</span> & ws.Range(<span class="string">"D26"</span>).Value
-    Print #txtFile, <span class="string">"Dinsdag: "</span> & ws.Range(<span class="string">"G26"</span>).Value
-    Print #txtFile, <span class="string">"Woensdag: "</span> & ws.Range(<span class="string">"J26"</span>).Value
-    Print #txtFile, <span class="string">"Donderdag: "</span> & ws.Range(<span class="string">"M26"</span>).Value
-    Print #txtFile, <span class="string">"Vrijdag: "</span> & ws.Range(<span class="string">"P26"</span>).Value
-    Print #txtFile, <span class="string">""</span>
-
-    <span class="comment">' Salade B Maandag t/m Vrijdag</span>
-    Print #txtFile, <span class="string">"Salade B"</span>
-    Print #txtFile, <span class="string">"------------------------"</span>
-    Print #txtFile, <span class="string">"Maandag: "</span> & ws.Range(<span class="string">"D27"</span>).Value
-    Print #txtFile, <span class="string">"Dinsdag: "</span> & ws.Range(<span class="string">"G27"</span>).Value
-    Print #txtFile, <span class="string">"Woensdag: "</span> & ws.Range(<span class="string">"J27"</span>).Value
-    Print #txtFile, <span class="string">"Donderdag: "</span> & ws.Range(<span class="string">"M27"</span>).Value
-    Print #txtFile, <span class="string">"Vrijdag: "</span> & ws.Range(<span class="string">"P27"</span>).Value
-    Print #txtFile, <span class="string">""</span>
-    
-    <span class="comment">' Salade B FR Maandag t/m Vrijdag</span>
-    Print #txtFile, <span class="string">"Salade B FR"</span>
-    Print #txtFile, <span class="string">"------------------------"</span>
-    Print #txtFile, <span class="string">"Maandag: "</span> & ws.Range(<span class="string">"D29"</span>).Value
-    Print #txtFile, <span class="string">"Dinsdag: "</span> & ws.Range(<span class="string">"G29"</span>).Value
-    Print #txtFile, <span class="string">"Woensdag: "</span> & ws.Range(<span class="string">"J29"</span>).Value
-    Print #txtFile, <span class="string">"Donderdag: "</span> & ws.Range(<span class="string">"M29"</span>).Value
-    Print #txtFile, <span class="string">"Vrijdag: "</span> & ws.Range(<span class="string">"P29"</span>).Value
-    Print #txtFile, <span class="string">""</span>
-
-    <span class="comment">' Brood Maandag t/m Vrijdag</span>
-    Print #txtFile, <span class="string">"Brood"</span>
-    Print #txtFile, <span class="string">"------------------------"</span>
-    Print #txtFile, <span class="string">"Maandag: "</span> & ws.Range(<span class="string">"D30"</span>).Value
-    Print #txtFile, <span class="string">"Dinsdag: "</span> & ws.Range(<span class="string">"G30"</span>).Value
-    Print #txtFile, <span class="string">"Woensdag: "</span> & ws.Range(<span class="string">"J30"</span>).Value
-    Print #txtFile, <span class="string">"Donderdag: "</span> & ws.Range(<span class="string">"M30"</span>).Value
-    Print #txtFile, <span class="string">"Vrijdag: "</span> & ws.Range(<span class="string">"P30"</span>).Value
-    Print #txtFile, <span class="string">""</span>
-    
-    <span class="comment">' Brood FR Maandag t/m Vrijdag</span>
-    Print #txtFile, <span class="string">"Brood FR"</span>
-    Print #txtFile, <span class="string">"------------------------"</span>
-    Print #txtFile, <span class="string">"Maandag: "</span> & ws.Range(<span class="string">"D32"</span>).Value
-    Print #txtFile, <span class="string">"Dinsdag: "</span> & ws.Range(<span class="string">"G32"</span>).Value
-    Print #txtFile, <span class="string">"Woensdag: "</span> & ws.Range(<span class="string">"J32"</span>).Value
-    Print #txtFile, <span class="string">"Donderdag: "</span> & ws.Range(<span class="string">"M32"</span>).Value
-    Print #txtFile, <span class="string">"Vrijdag: "</span> & ws.Range(<span class="string">"P32"</span>).Value
-    Print #txtFile, <span class="string">""</span>
-
-    <span class="comment">' Hot Dish Maandag t/m Vrijdag</span>
-    Print #txtFile, <span class="string">"Hot Dish"</span>
-    Print #txtFile, <span class="string">"------------------------"</span>
-    Print #txtFile, <span class="string">"Maandag: "</span> & ws.Range(<span class="string">"D33"</span>).Value
-    Print #txtFile, <span class="string">"Dinsdag: "</span> & ws.Range(<span class="string">"G33"</span>).Value
-    Print #txtFile, <span class="string">"Woensdag: "</span> & ws.Range(<span class="string">"J33"</span>).Value
-    Print #txtFile, <span class="string">"Donderdag: "</span> & ws.Range(<span class="string">"M33"</span>).Value
-    Print #txtFile, <span class="string">"Vrijdag: "</span> & ws.Range(<span class="string">"P33"</span>).Value
-    Print #txtFile, <span class="string">""</span>
-
-    <span class="comment">' Hot Dish FR Maandag t/m Vrijdag</span>
-    Print #txtFile, <span class="string">"Hot Dish FR"</span>
-    Print #txtFile, <span class="string">"------------------------"</span>
-    Print #txtFile, <span class="string">"Maandag: "</span> & ws.Range(<span class="string">"D35"</span>).Value
-    Print #txtFile, <span class="string">"Dinsdag: "</span> & ws.Range(<span class="string">"G35"</span>).Value
-    Print #txtFile, <span class="string">"Woensdag: "</span> & ws.Range(<span class="string">"J35"</span>).Value
-    Print #txtFile, <span class="string">"Donderdag: "</span> & ws.Range(<span class="string">"M35"</span>).Value
-    Print #txtFile, <span class="string">"Vrijdag: "</span> & ws.Range(<span class="string">"P35"</span>).Value
-    Print #txtFile, <span class="string">""</span>
-    
-    <span class="comment">' A La Carte Hot Snack Maandag t/m Vrijdag</span>
-    Print #txtFile, <span class="string">"A La Carte Hot Snack"</span>
-    Print #txtFile, <span class="string">"------------------------"</span>
-    Print #txtFile, <span class="string">"Maandag: "</span> & ws.Range(<span class="string">"D36"</span>).Value
-    Print #txtFile, <span class="string">"Dinsdag: "</span> & ws.Range(<span class="string">"G36"</span>).Value
-    Print #txtFile, <span class="string">"Woensdag: "</span> & ws.Range(<span class="string">"J36"</span>).Value
-    Print #txtFile, <span class="string">"Donderdag: "</span> & ws.Range(<span class="string">"M36"</span>).Value
-    Print #txtFile, <span class="string">"Vrijdag: "</span> & ws.Range(<span class="string">"P36"</span>).Value
-    Print #txtFile, <span class="string">""</span>
-    
-    <span class="keyword">Close</span> txtFile
-    
-    <span class="comment">' Bericht om aan te geven dat het bestand is opgeslagen</span>
-    MsgBox <span class="string">"De gerechten zijn opgeslagen in de Downloads-map als Menu Bergerat "</span> & menuName & <span class="string">".txt!"</span>
-<span class="keyword">End Sub</span>
-
-    </code></pre>
+        <span class="keyword">Sub</span> GerechtenExporterenNaarTXT()
+            <span class="keyword">Dim</span> ws <span class="keyword">As</span> Worksheet
+            <span class="keyword">Set</span> ws = ThisWorkbook.Sheets(1) <span class="comment">' Pas aan naar het juiste werkblad</span>
+            
+            <span class="comment">' Haal de waarde van cel B19 op</span>
+            <span class="keyword">Dim</span> menuName <span class="keyword">As</span> <span class="keyword">String</span>
+            menuName = ws.Range(<span class="string">"B19"</span>).Value
+            
+            <span class="comment">' Definieer het pad naar de Downloads-map en de bestandsnaam (Menu Bergerat met waarde van B19)</span>
+            <span class="keyword">Dim</span> downloadPath <span class="keyword">As</span> <span class="keyword">String</span>
+            downloadPath = Environ(<span class="string">"USERPROFILE"</span>) & <span class="string">"\Downloads\Menu Bergerat "</span> & menuName & <span class="string">".txt"</span>
+            
+            <span class="comment">' Open het tekstbestand om te schrijven (overschrijven indien het al bestaat)</span>
+            <span class="keyword">Dim</span> txtFile <span class="keyword">As</span> <span class="keyword">Integer</span>
+            txtFile = FreeFile
+            <span class="keyword">Open</span> downloadPath <span class="keyword">For Output As</span> txtFile
+            
+            <span class="comment">' Schrijf een instructie naar het bestand</span>
+            Print #txtFile, <span class="string">"Kan je deze verbeteren op schrijffouten en opnieuw de code maken?"</span>
+            
+            <span class="comment">' Schrijf de VBA-stijl structuur naar het tekstbestand</span>
+            Print #txtFile, <span class="string">"Sub GerechtenVerbeteren()"</span>
+            Print #txtFile, <span class="string">"    Dim ws As Worksheet"</span>
+            Print #txtFile, <span class="string">"    Set ws = ThisWorkbook.Sheets(1) ' Pas aan naar het juiste werkblad"</span>
+            Print #txtFile, <span class="string">""</span>
+            Print #txtFile, <span class="string">"    ' Verbeteren van de gerechten (cel per cel)"</span>
+            Print #txtFile, <span class="string">""</span>
+            
+            <span class="comment">' Chef's Soup Maandag t/m Vrijdag</span>
+            Print #txtFile, <span class="string">"    ' Chef's Soup (Maandag t/m Vrijdag) in kolommen D, G, J, M, P"</span>
+            Print #txtFile, <span class="string">"    ws.Range(""D21"").Value = """ & ws.Range("D21").Value & """</span>
+            Print #txtFile, <span class="string">"    ws.Range(""D23"").Value = """ & ws.Range("D23").Value & """</span>
+            Print #txtFile, <span class="string">"    ws.Range(""G21"").Value = """ & ws.Range("G21").Value & """</span>
+            Print #txtFile, <span class="string">"    ws.Range(""G23"").Value = """ & ws.Range("G23").Value & """</span>
+            Print #txtFile, <span class="string">"    ws.Range(""J21"").Value = """ & ws.Range("J21").Value & """</span>
+            Print #txtFile, <span class="string">"    ws.Range(""J23"").Value = """ & ws.Range("J23").Value & """</span>
+            Print #txtFile, <span class="string">"    ws.Range(""M21"").Value = """ & ws.Range("M21").Value & """</span>
+            Print #txtFile, <span class="string">"    ws.Range(""M23"").Value = """ & ws.Range("M23").Value & """</span>
+            Print #txtFile, <span class="string">"    ws.Range(""P21"").Value = """ & ws.Range("P21").Value & """</span>
+            Print #txtFile, <span class="string">"    ws.Range(""P23"").Value = """ & ws.Range("P23").Value & """</span>
+            Print #txtFile, <span class="string">""</span>
+            
+            <span class="comment">' Salad A en B</span>
+            Print #txtFile, <span class="string">"    ' Salad A"</span>
+            Print #txtFile, <span class="string">"    ws.Range(""D24"").Value = """ & ws.Range("D24").Value & """</span>
+            Print #txtFile, <span class="string">"    ws.Range(""D26"").Value = """ & ws.Range("D26").Value & """</span>
+            Print #txtFile, <span class="string">""</span>
+            Print #txtFile, <span class="string">"    ' Salad B"</span>
+            Print #txtFile, <span class="string">"    ws.Range(""D27"").Value = """ & ws.Range("D27").Value & """</span>
+            Print #txtFile, <span class="string">"    ws.Range(""D29"").Value = """ & ws.Range("D29").Value & """</span>
+            Print #txtFile, <span class="string">""</span>
+            
+            <span class="comment">' Baguette of the Week</span>
+            Print #txtFile, <span class="string">"    ' Baguette of the Week"</span>
+            Print #txtFile, <span class="string">"    ws.Range(""D30"").Value = """ & ws.Range("D30").Value & """</span>
+            Print #txtFile, <span class="string">"    ws.Range(""D32"").Value = """ & ws.Range("D32").Value & """</span>
+            Print #txtFile, <span class="string">""</span>
+            
+            <span class="comment">' Hot Dish Maandag t/m Vrijdag (NL)</span>
+            Print #txtFile, <span class="string">"    ' Hot Dish Maandag t/m Vrijdag NL"</span>
+            Print #txtFile, <span class="string">"    ws.Range(""D33"").Value = """ & ws.Range("D33").Value & """</span>
+            Print #txtFile, <span class="string">"    ws.Range(""G33"").Value = """ & ws.Range("G33").Value & """</span>
+            Print #txtFile, <span class="string">"    ws.Range(""J33"").Value = """ & ws.Range("J33").Value & """</span>
+            Print #txtFile, <span class="string">"    ws.Range(""M33"").Value = """ & ws.Range("M33").Value & """</span>
+            Print #txtFile, <span class="string">"    ws.Range(""P33"").Value = """ & ws.Range("P33").Value & """</span>
+            Print #txtFile, <span class="string">""</span>
+            
+            <span class="comment">' Hot Dish Maandag t/m Vrijdag (FR)</span>
+            Print #txtFile, <span class="string">"    ' Hot Dish Maandag t/m Vrijdag FR"</span>
+            Print #txtFile, <span class="string">"    ws.Range(""D35"").Value = """ & ws.Range("D35").Value & """</span>
+            Print #txtFile, <span class="string">"    ws.Range(""G35"").Value = """ & ws.Range("G35").Value & """</span>
+            Print #txtFile, <span class="string">"    ws.Range(""J35"").Value = """ & ws.Range("J35").Value & """</span>
+            Print #txtFile, <span class="string">"    ws.Range(""M35"").Value = """ & ws.Range("M35").Value & """</span>
+            Print #txtFile, <span class="string">"    ws.Range(""P35"").Value = """ & ws.Range("P35").Value & """</span>
+            Print #txtFile, <span class="string">""</span>
+            
+            <span class="comment">' Hot Snack A La Carte</span>
+            Print #txtFile, <span class="string">"    ' Hot Snack A La Carte"</span>
+            Print #txtFile, <span class="string">"    ws.Range(""D36"").Value = """ & ws.Range("D36").Value & """</span>
+            Print #txtFile, <span class="string">""</span>
+            
+            <span class="comment">' Sluit af met de MsgBox</span>
+            Print #txtFile, <span class="string">"    MsgBox ""De gerechten zijn verbeterd!"""</span>
+            Print #txtFile, <span class="string">"End Sub"</span>
+            
+            <span class="keyword">Close</span> txtFile
+            
+            <span class="comment">' Bericht om aan te geven dat het bestand is opgeslagen</span>
+            MsgBox <span class="string">"De gerechten zijn opgeslagen in de Downloads-map als Menu Bergerat "</span> & menuName & <span class="string">".txt!"</span>
+        <span class="keyword">End Sub</span>
+        </code></pre>
+        
 </div>
 
 </body>
