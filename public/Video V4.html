@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>YouTube Handler</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #000; /* Default black background */
+            color: #FFF; /* White text */
+        }
+        #title {
+            font-size: 24px;
+            margin-top: 20px;
+        }
+        iframe {
+            width: 80%;
+            height: 65%;
+            aspect-ratio: 16 / 9;
+        }
+        #notitieveld {
+            width: calc(80% - 4cm);
+            height: 500px;
+            padding: 20px;
+            border-left: 2px solid #FFAAAA;
+            background-color: #FFFFCC;
+            resize: both;
+            overflow: auto;
+            line-height: 1.6;
+            font-family: 'Calibri', sans-serif;
+            margin-bottom: 20px;
+        }
+        .button, .colorPicker, #fontFamilySelect {
+            padding: 10px;
+            margin: 5px;
+            color: rgb(66, 65, 65);
+            background-color: #1c1c1c;
+            border: none;
+            cursor: pointer;
+        }
+        .colorPicker {
+            margin-left: auto;
+        }
+        #videoUrlInput {
+            flex-grow: 1;
+            padding: 10px;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <div id="title">YouTube Handler</div>
+    <div id="videoInputContainer">
+        <input id="videoUrlInput" type="text" value="SGXAqAzYUSM">
+        <button class="button" onclick="loadVideo();">Load Video</button>
+    </div>
+    <iframe id="youtubeVideo" src="https://www.youtube.com/embed/SGXAqAzYUSM" frameborder="0" allowfullscreen></iframe>
+    <div id="controlPanel">
+        <button class="button" onclick="toggleNotes();">Show/Hide Notes</button>
+        <select id="fontFamilySelect" onchange="changeFontFamily(this.value);">
+            <!-- Font family options will be filled by JavaScript -->
+        </select>
+        <button class="button" onclick="move('up');">&#8593; Up</button>
+        <button class="button" onclick="move('down');">&#8595; Down</button>
+        <button class="button" onclick="downloadHTML();">Download Page</button>
+        <button class="button" onclick="downloadVideo();">Download Video</button>
+        <select id="bgColorSelect" class="colorPicker" onchange="changeBgColor(this.value)">
+            <!-- Gray scale options will be filled by JavaScript -->
+        </select>
+    </div>
+    <textarea id="notitieveld" placeholder="Start typen"></textarea>
+
+    <script>
+        function changeBgColor(color) {
+            document.body.style.backgroundColor = color;
+        }
+
+        function loadVideo() {
+            var videoInput = document.getElementById('videoUrlInput').value.trim();
+            var videoId = videoInput.split('v=')[1] || videoInput;
+            if (videoId.indexOf('&') !== -1) {
+                videoId = videoId.split('&')[0];
+            }
+            document.getElementById('youtubeVideo').src = 'https://www.youtube.com/embed/' + videoId;
+        }
+
+        function toggleNotes() {
+            var notesField = document.getElementById('notitieveld');
+            notesField.style.display = notesField.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function move(direction) {
+            var container = document.body;  // Use the body to apply transformations
+            var step = 100;
+            var maxMove = 300;  // Adjust max move distance as required
+            if (direction === 'up' && parseInt(container.style.marginTop || 0) < maxMove) {
+                container.style.marginTop = (parseInt(container.style.marginTop || 0) + step) + 'px';
+            } else if (direction === 'down' && parseInt(container.style.marginTop || 0) > -maxMove) {
+                container.style.marginTop = (parseInt(container.style.marginTop || 0) - step) + 'px';
+            }
+        }
+        function downloadVideo() {
+            var videoSrc = document.getElementById('youtubeVideo').src;
+            var downloadUrl = videoSrc.replace('https://www.youtube.com/embed/', 'https://www.ssyoutube.com/watch?v=');
+            window.open(downloadUrl, '_blank');
+        }
+
+        function downloadHTML() {
+            var videoSrc = document.getElementById('youtubeVideo').src;
+            var notes = document.getElementById('notitieveld').value;
+            var fontFamily = document.getElementById('fontFamilySelect').value;
+            var bgColor = document.body.style.backgroundColor;
+
+            // Hier begin je de string literal voor de content
+            var content = `
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <title>Downloaded YouTube Handler Page</title>
+                <style>
+                    /* Hier komt je CSS */
+                </style>
+            </head>
+            <body>
+                <div id="title">YouTube Handler</div>
+                <iframe id="youtubeVideo" src="${videoSrc}" frameborder="0" allowfullscreen></iframe>
+                <textarea id="notitieveld" style="font-family:${fontFamily};">${notes}</textarea>
+                <!-- Include all buttons and selections with their functionalities -->
+                <button onclick="loadVideo();">Load Video</button>
+                <select id="fontFamilySelect" onchange="changeFontFamily(this.value);">
+                    <option value="Arial">Arial</option>
+                    <!-- Meer opties... -->
+                </select>
+                <button onclick="toggleNotes();">Show/Hide Notes</button>
+                <button onclick="downloadHTML();">Download Page</button>
+                <!-- Je sluit de string literal af en voegt de gesloten backtick en semicolon toe voordat je begint met het script element -->
+                `;
+            // Sluit je string literal correct af voordat je het script-element begint.
+            content += `<script>
+            // Alle JavaScript-functies moeten hier als tekst worden opgenomen
+            // Zorg ervoor dat je ze als tekst opneemt, niet als functionele JavaScript.
+            function loadVideo() { /*...*/ }
+            function toggleNotes() { /*...*/ }
+            function changeFontFamily(font) { /*...*/ }
+            // Voeg andere functies toe zoals nodig
+            <\/script>
+            </body>
+            </html>`;
+
+            var blob = new Blob([content], {type: 'text/html'});
+            var link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'YouTube_Handler_Page.html';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+
+
+        function changeFontFamily(font) {
+            document.getElementById('notitieveld').style.fontFamily = font;
+        }
+
+        // Fill the font family dropdown
+        const fontFamilySelect = document.getElementById('fontFamilySelect');
+        ['Arial', 'Verdana', 'Helvetica', 'Calibri', 'Garamond', 'Times New Roman', 'Georgia', 'Courier New', 'Lucida Console', 'Comic Sans MS', 'Trebuchet MS', 'Impact', 'Charcoal', 'Tahoma', 'Century Gothic', 'Lucida Sans Unicode', 'Arial Black', 'Palatino Linotype', 'Book Antiqua', 'Palatino'].forEach(font => {
+            let option = document.createElement('option');
+            option.value = font;
+            option.text = font;
+            fontFamilySelect.appendChild(option);
+        });
+
+        // Fill the background color dropdown
+        const bgColorSelect = document.getElementById('bgColorSelect');
+        ['#000000', '#1c1c1c', '#333333', '#4d4d4d', '#666666', '#7f7f7f', '#999999', '#b3b3b3', '#cccccc', '#e6e6e6', '#ffffff'].forEach(color => {
+            let option = document.createElement('option');
+            option.value = color;
+            option.text = color;
+            bgColorSelect.appendChild(option);
+        });
+    </script>
+</body>
+</html>
