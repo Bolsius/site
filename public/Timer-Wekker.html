@@ -1,0 +1,441 @@
+<!DOCTYPE html> 
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timer & Alarm</title>
+    <style>
+        :root {
+            --bg-color: #121212;
+            --text-color: #ffffff;
+            --button-color: #1e88e5;
+            --button-hover: #1565c0;
+            --icon-color: #ffffff;
+        }
+        body.light-mode {
+            --bg-color: #f4f4f9;
+            --text-color: #000000;
+            --button-color: #007bff;
+            --button-hover: #0056b3;
+            --icon-color: #000000;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: var(--bg-color);
+        }
+        .hidden {
+            display: none;
+        }
+        .input-field {
+            width: 100px;
+            padding: 5px;
+            margin: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .alarm-list {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .alarm-list li {
+            margin: 5px 0;
+            background: #1e1e1e;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        body.light-mode .alarm-list li {
+            background: #f0f0f0;
+        }
+        #clock {
+            font-size: 36px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        .button {
+            display: inline-block;
+            width: 120px;
+            padding: 8px;
+            margin: 5px;
+            font-size: 14px;
+            text-align: center;
+            border: none;
+            border-radius: 5px;
+            background-color: var(--button-color);
+            color: white;
+            cursor: pointer;
+        }
+        .button:hover {
+            background-color: var(--button-hover);
+        }
+        .toggle-switch {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px auto;
+        }
+        .toggle {
+            position: relative;
+            width: 80px; /* Oorspronkelijke breedte */
+            height: 30px;
+            background: var(--button-color);
+            border-radius: 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .toggle-label {
+            position: absolute;
+            font-size: 14px;
+            pointer-events: none;
+            transition: opacity 0.3s ease, left 0.3s ease;
+        }
+        .toggle-label.dark {
+            right: 10px; /* Links uitgelijnd */
+            opacity: 1;
+        }
+        .toggle-label.light {
+            left: 10px; /* Rechts uitgelijnd */
+            opacity: 0;
+        }
+        .toggle.active .toggle-label.dark {
+            opacity: 0;
+        }
+        .toggle.active .toggle-label.light {
+            opacity: 1;
+        }
+        .toggle::after {
+            content: "";
+            position: absolute;
+            width: 36px;
+            height: 26px;
+            background: var(--bg-color);
+            border-radius: 13px;
+            top: 2px;
+            left: 2px;
+            transition: all 0.3s ease;
+        }
+        .toggle.active::after {
+            left: calc(100% - 38px);
+        }
+        .icon-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            margin: 0;
+        }
+        .icon-button img {
+            width: 24px;
+            height: 24px;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            filter: brightness(0) invert(1);
+        }
+        body.light-mode .icon-button img {
+            filter: none;
+        }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh; /* Schermvullend */
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            font-size: 40px;
+            font-weight: bold;
+        }
+        .close-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 24px;
+            color: white;
+            background: none;
+            border: none;
+            cursor: pointer;
+            z-index: 10000; /* Zorg ervoor dat de knop altijd bovenaan staat */
+        }
+
+        .close-button:hover {
+            color: red;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="toggle-switch">
+            <div class="toggle" id="darkModeToggle" onclick="toggleDarkMode()">
+                <div class="toggle-label dark">Light</div>
+                <div class="toggle-label light">Dark</div>
+            </div>
+            <button class="icon-button" onclick="openPopup()" title="Open popup">
+                <img src="https://cdn-icons-png.flaticon.com/512/786/786205.png" alt="Open popup">
+            </button>
+        </div>
+        <h1>Timer & Alarm</h1>
+        <label for="mode">Kies modus:</label>
+        <select id="mode" class="input-field">
+            <option value="timer">Timer</option>
+            <option value="alarm">Wekker</option>
+        </select>
+
+        <div id="timerFields">
+            <h3>Timer</h3>
+            <input type="text" id="timerName" class="input-field" placeholder="Naam van Timer">
+            <input type="number" id="minutes" class="input-field" placeholder="Minuten">
+            <input type="number" id="seconds" class="input-field" placeholder="Seconden">
+        </div>
+        
+
+        <div id="alarmFields" class="hidden">
+            <h3>Wekker</h3>
+            <input type="text" id="alarmName" class="input-field" placeholder="Naam">
+            <input type="time" id="alarmTime" class="input-field">
+        </div>
+
+        <button class="button" onclick="start()">Voeg toe</button>
+        <h2 id="clock">00:00</h2>
+        <ul id="alarms" class="alarm-list"></ul>
+    </div>
+
+    <div id="overlay" class="overlay"></div>
+
+    <audio id="alarmSound" preload="auto">
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mp3">
+        Jouw browser ondersteunt geen audio.
+    </audio>
+
+    <script>
+        const modeSelect = document.getElementById("mode");
+        const timerFields = document.getElementById("timerFields");
+        const alarmFields = document.getElementById("alarmFields");
+        const clock = document.getElementById("clock");
+        const alarmsList = document.getElementById("alarms");
+        const darkModeToggle = document.getElementById("darkModeToggle");
+        const overlay = document.getElementById("overlay");
+        const alarmSound = document.getElementById("alarmSound");
+        let timerInterval;
+        let alarms = [];
+        let isDarkMode = true;
+
+        document.body.classList.add("dark-mode");
+
+        modeSelect.addEventListener("change", () => {
+            if (modeSelect.value === "timer") {
+                timerFields.classList.remove("hidden");
+                alarmFields.classList.add("hidden");
+            } else {
+                timerFields.classList.add("hidden");
+                alarmFields.classList.remove("hidden");
+            }
+        });
+
+        function start() {
+            // Probeer het geluid te initialiseren bij een gebruikersinteractie
+            alarmSound.play().then(() => {
+                alarmSound.pause();
+                alarmSound.currentTime = 0;
+            }).catch((error) => {
+                console.log("Geluid kan nog niet worden afgespeeld:", error);
+            });
+
+            if (modeSelect.value === "timer") {
+                startTimer();
+            } else {
+                addAlarm();
+            }
+        }
+
+        function startTimer() {
+            clearInterval(timerInterval);
+            let timerName = document.getElementById("timerName").value || "Timer"; // Naam van timer
+            let minutes = parseInt(document.getElementById("minutes").value) || 0;
+            let seconds = parseInt(document.getElementById("seconds").value) || 0;
+            let totalSeconds = minutes * 60 + seconds;
+
+            if (totalSeconds <= 0) {
+                alert("Voer een geldige tijd in!");
+                return;
+            }
+
+            timerInterval = setInterval(() => {
+                if (totalSeconds <= 0) {
+                    clearInterval(timerInterval);
+                    playAlarmSound();
+                    showOverlay(`${timerName} is afgelopen!`); // Toon de naam van de timer
+                    goFullScreen(); // Activeer fullscreen-modus
+                    return;
+                }
+                totalSeconds--;
+                let mins = Math.floor(totalSeconds / 60);
+                let secs = totalSeconds % 60;
+                clock.textContent = `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
+            }, 1000);
+        }
+
+
+        function addAlarm() {
+            const alarmName = document.getElementById("alarmName").value || "Wekker";
+            const alarmTime = document.getElementById("alarmTime").value;
+
+            if (!alarmTime) {
+                alert("Voer een geldige tijd in (HH:MM).");
+                return;
+            }
+
+            const [hours, minutes] = alarmTime.split(":").map(Number);
+            const now = new Date();
+            let alarmDate = new Date();
+            alarmDate.setHours(hours, minutes, 0, 0);
+
+            if (alarmDate <= now) {
+                alarmDate.setDate(alarmDate.getDate() + 1);
+            }
+
+            alarms.push({ name: alarmName, time: alarmDate });
+            renderAlarms();
+        }
+
+
+        function renderAlarms() {
+            alarmsList.innerHTML = "";
+            alarms.forEach(alarm => {
+                const li = document.createElement("li");
+                const remainingTime = Math.ceil((alarm.time - new Date()) / 1000);
+                const mins = Math.floor(remainingTime / 60);
+                const secs = remainingTime % 60;
+
+                li.textContent = `${alarm.name} - ${alarm.time.toLocaleTimeString()} (${mins}:${String(secs).padStart(2, "0")})`;
+                alarmsList.appendChild(li);
+            });
+
+            if (alarms.length > 0) {
+                setTimeout(checkAlarms, 1000);
+            }
+        }
+
+        function checkAlarms() {
+            const now = new Date();
+            alarms = alarms.filter(alarm => {
+                if (now >= alarm.time) {
+                    playAlarmSound();
+                    showOverlay(`Alarm: ${alarm.name} is afgelopen!`); // Toon de naam van de wekker
+                    goFullScreen(); // Activeer fullscreen-modus
+                    return false;
+                }
+                return true;
+            });
+            renderAlarms();
+        }
+
+
+        function toggleDarkMode() {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle("light-mode");
+            darkModeToggle.classList.toggle("active");
+        }
+
+        function openPopup() {
+            const popup = window.open(
+                window.location.href,
+                "TimerPopup",
+                "width=400,height=500,top=100,left=100,resizable=yes,scrollbars=yes,toolbar=no,menubar=no,location=no,status=no"
+            );
+        }
+
+        function showOverlay(message) {
+            overlay.textContent = message;
+            overlay.style.display = "flex"; /* Toon schermvullend */
+            setTimeout(() => {
+                overlay.style.display = "none";
+            }, 5000);
+        }
+
+        function playAlarmSound() {
+            alarmSound.currentTime = 0;
+            alarmSound.volume = 1.0;
+            alarmSound.play().catch(function(error) {
+                console.error("Failed to play audio:", error);
+            });
+        }
+        function goFullScreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch((err) => {
+                    console.error(`Error trying to enable fullscreen mode: ${err.message}`);
+                });
+            }
+        }
+
+        function showOverlay(message) {
+            const closeButton = document.createElement("button");
+            closeButton.classList.add("close-button");
+            closeButton.textContent = "X";
+            closeButton.onclick = closeTab;
+
+            // Leeg de overlay en voeg de sluitknop als eerste toe
+            overlay.innerHTML = "";
+            overlay.appendChild(closeButton);
+
+            // Voeg de boodschap toe als een aparte <div>
+            const messageDiv = document.createElement("div");
+            messageDiv.style.marginTop = "50px"; // Zorg dat de boodschap niet over de "X" komt
+            messageDiv.textContent = message;
+            overlay.appendChild(messageDiv);
+
+            overlay.style.display = "flex";
+            goFullScreen(); // Activeer fullscreen
+        }
+
+
+
+        function closeTab() {
+            try {
+                // Redirect naar een lege pagina
+                window.location.href = "about:blank";
+                setTimeout(() => {
+                    window.close(); // Probeer de tab te sluiten
+                }, 100);
+            } catch (err) {
+                console.error("Sluiten van tabblad mislukt:", err);
+            }
+
+            // Voor het geval de tab niet sluit
+            if (!window.closed) {
+                alert("Het sluiten van deze tab wordt geblokkeerd door de browser. Sluit deze handmatig.");
+            }
+        }
+
+
+
+
+
+
+    </script>
+</body>
+</html>
