@@ -162,6 +162,7 @@
             background: rgba(0, 0, 0, 0.8);
             color: white;
             display: none;
+            flex-direction: column; /* Aanpassing voor verticale indeling */
             justify-content: center;
             align-items: center;
             z-index: 9999;
@@ -179,16 +180,20 @@
             cursor: pointer;
             z-index: 10000; /* Zorg ervoor dat de knop altijd bovenaan staat */
         }
-
         .close-button:hover {
             color: red;
         }
-
-
+        /* Toegevoegd voor uniforme weergave */
+        .display {
+            font-size: 36px;
+            margin: 20px 0;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
+    <!-- Toegevoegd id="mainContainer" voor verbergen -->
+    <div class="container" id="mainContainer">
         <div class="toggle-switch">
             <div class="toggle" id="darkModeToggle" onclick="toggleDarkMode()">
                 <div class="toggle-label dark">Light</div>
@@ -220,11 +225,19 @@
         </div>
 
         <button class="button" onclick="start()">Voeg toe</button>
-        <h2 id="clock">00:00</h2>
-        <ul id="alarms" class="alarm-list"></ul>
+        <!-- Verberg de klok standaard -->
+        <h2 id="clock" class="hidden">00:00</h2>
+        <!-- Verberg de alarm-lijst standaard -->
+        <ul id="alarms" class="alarm-list hidden"></ul>
     </div>
 
-    <div id="overlay" class="overlay"></div>
+    <!-- Toegevoegd displayContainer voor uniforme weergave -->
+    <div id="displayContainer" class="display hidden"></div>
+
+    <div id="overlay" class="overlay">
+        <button class="close-button" onclick="closeOverlay()">X</button>
+        <div id="overlayMessage"></div>
+    </div>
 
     <audio id="alarmSound" preload="auto">
         <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mp3">
@@ -239,7 +252,10 @@
         const alarmsList = document.getElementById("alarms");
         const darkModeToggle = document.getElementById("darkModeToggle");
         const overlay = document.getElementById("overlay");
+        const overlayMessage = document.getElementById("overlayMessage");
         const alarmSound = document.getElementById("alarmSound");
+        const mainContainer = document.getElementById("mainContainer"); // Toegevoegd
+        const displayContainer = document.getElementById("displayContainer"); // Toegevoegd
         let timerInterval;
         let alarms = [];
         let isDarkMode = true;
@@ -284,21 +300,26 @@
                 return;
             }
 
+            // Verberg de hoofdcontainer en toon de displayContainer
+            mainContainer.classList.add("hidden");
+            displayContainer.classList.remove("hidden");
+
             timerInterval = setInterval(() => {
                 if (totalSeconds <= 0) {
                     clearInterval(timerInterval);
                     playAlarmSound();
-                    showOverlay(`${timerName} is afgelopen!`); // Toon de naam van de timer
-                    goFullScreen(); // Activeer fullscreen-modus
+                    displayContainer.textContent = `${timerName} is afgelopen!`;
+                    showOverlay(`${timerName} is afgelopen!`); // Toon overlay
+                    // Probeer fullscreen te activeren
+                    goFullScreen();
                     return;
                 }
                 totalSeconds--;
                 let mins = Math.floor(totalSeconds / 60);
                 let secs = totalSeconds % 60;
-                clock.textContent = `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
+                displayContainer.textContent = `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
             }, 1000);
         }
-
 
         function addAlarm() {
             const alarmName = document.getElementById("alarmName").value || "Wekker";
@@ -318,42 +339,32 @@
                 alarmDate.setDate(alarmDate.getDate() + 1);
             }
 
-            alarms.push({ name: alarmName, time: alarmDate });
-            renderAlarms();
+            // Verberg de hoofdcontainer en toon de displayContainer
+            mainContainer.classList.add("hidden");
+            displayContainer.classList.remove("hidden");
+
+            checkAlarm(alarmDate, alarmName);
         }
 
-
-        function renderAlarms() {
-            alarmsList.innerHTML = "";
-            alarms.forEach(alarm => {
-                const li = document.createElement("li");
-                const remainingTime = Math.ceil((alarm.time - new Date()) / 1000);
-                const mins = Math.floor(remainingTime / 60);
-                const secs = remainingTime % 60;
-
-                li.textContent = `${alarm.name} - ${alarm.time.toLocaleTimeString()} (${mins}:${String(secs).padStart(2, "0")})`;
-                alarmsList.appendChild(li);
-            });
-
-            if (alarms.length > 0) {
-                setTimeout(checkAlarms, 1000);
-            }
-        }
-
-        function checkAlarms() {
-            const now = new Date();
-            alarms = alarms.filter(alarm => {
-                if (now >= alarm.time) {
+        function checkAlarm(alarmDate, alarmName) {
+            const interval = setInterval(() => {
+                const now = new Date();
+                if (now >= alarmDate) {
+                    clearInterval(interval);
                     playAlarmSound();
-                    showOverlay(`Alarm: ${alarm.name} is afgelopen!`); // Toon de naam van de wekker
-                    goFullScreen(); // Activeer fullscreen-modus
-                    return false;
+                    displayContainer.textContent = `Alarm: ${alarmName} is afgelopen!`;
+                    showOverlay(`Alarm: ${alarmName} is afgelopen!`); // Toon overlay
+                    // Probeer fullscreen te activeren
+                    goFullScreen();
+                } else {
+                    // Bereken resterende tijd en toon deze
+                    const remainingTime = Math.ceil((alarmDate - now) / 1000);
+                    const mins = Math.floor(remainingTime / 60);
+                    const secs = remainingTime % 60;
+                    displayContainer.textContent = `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
                 }
-                return true;
-            });
-            renderAlarms();
+            }, 1000);
         }
-
 
         function toggleDarkMode() {
             isDarkMode = !isDarkMode;
@@ -370,11 +381,15 @@
         }
 
         function showOverlay(message) {
-            overlay.textContent = message;
-            overlay.style.display = "flex"; /* Toon schermvullend */
-            setTimeout(() => {
-                overlay.style.display = "none";
-            }, 5000);
+            overlayMessage.textContent = message;
+            overlay.style.display = "flex"; /* Toon overlay */
+
+            // Probeer fullscreen te activeren (werkt alleen als de gebruiker eerder toestemming heeft gegeven)
+            goFullScreen();
+        }
+
+        function closeOverlay() {
+            overlay.style.display = "none";
         }
 
         function playAlarmSound() {
@@ -384,6 +399,7 @@
                 console.error("Failed to play audio:", error);
             });
         }
+
         function goFullScreen() {
             if (!document.fullscreenElement) {
                 document.documentElement.requestFullscreen().catch((err) => {
@@ -391,28 +407,6 @@
                 });
             }
         }
-
-        function showOverlay(message) {
-            const closeButton = document.createElement("button");
-            closeButton.classList.add("close-button");
-            closeButton.textContent = "X";
-            closeButton.onclick = closeTab;
-
-            // Leeg de overlay en voeg de sluitknop als eerste toe
-            overlay.innerHTML = "";
-            overlay.appendChild(closeButton);
-
-            // Voeg de boodschap toe als een aparte <div>
-            const messageDiv = document.createElement("div");
-            messageDiv.style.marginTop = "50px"; // Zorg dat de boodschap niet over de "X" komt
-            messageDiv.textContent = message;
-            overlay.appendChild(messageDiv);
-
-            overlay.style.display = "flex";
-            goFullScreen(); // Activeer fullscreen
-        }
-
-
 
         function closeTab() {
             try {
@@ -430,12 +424,6 @@
                 alert("Het sluiten van deze tab wordt geblokkeerd door de browser. Sluit deze handmatig.");
             }
         }
-
-
-
-
-
-
     </script>
 </body>
 </html>
